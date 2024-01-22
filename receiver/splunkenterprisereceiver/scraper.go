@@ -159,7 +159,7 @@ func (s *splunkScraper) scrapeAvgExecLatencyByHost(ctx context.Context, now pcom
 	var sr searchResponse
 	// Because we have to utilize network resources for each KPI we should check that each metrics
 	// is enabled before proceeding
-	if !s.conf.MetricsBuilderConfig.Metrics.SplunkAverageSchedulerExecutionLatency.Enabled {
+	if !s.conf.MetricsBuilderConfig.Metrics.SplunkSchedulerAvgExecutionLatency.Enabled {
 		return
 	}
 
@@ -228,7 +228,7 @@ func (s *splunkScraper) scrapeAvgExecLatencyByHost(ctx context.Context, now pcom
 				errs.Add(err)
 				continue
 			}
-			s.mb.RecordSplunkAverageSchedulerExecutionLatencyDataPoint(now, v, host)
+			s.mb.RecordSplunkSchedulerAvgExecutionLatencyDataPoint(now, v, host)
 		}
 	}
 }
@@ -237,7 +237,7 @@ func (s *splunkScraper) scrapeIndexerAvgRate(ctx context.Context, now pcommon.Ti
 	var sr searchResponse
 	// Because we have to utilize network resources for each KPI we should check that each metrics
 	// is enabled before proceeding
-	if !s.conf.MetricsBuilderConfig.Metrics.SplunkAverageSchedulerExecutionLatency.Enabled {
+	if !s.conf.MetricsBuilderConfig.Metrics.SplunkIndexerAvgRate.Enabled {
 		return
 	}
 
@@ -309,7 +309,7 @@ func (s *splunkScraper) scrapeIndexerAvgRate(ctx context.Context, now pcommon.Ti
 				errs.Add(err)
 				continue
 			}
-			s.mb.RecordSplunkAvgIndexerRateDataPoint(now, v, host)
+			s.mb.RecordSplunkIndexerAvgRateDataPoint(now, v, host)
 		}
 	}
 }
@@ -318,7 +318,7 @@ func (s *splunkScraper) scrapeIndexerPipelineQueues(ctx context.Context, now pco
 	var sr searchResponse
 	// Because we have to utilize network resources for each KPI we should check that each metrics
 	// is enabled before proceeding
-	if !s.conf.MetricsBuilderConfig.Metrics.SplunkAverageSchedulerExecutionLatency.Enabled {
+	if !s.conf.MetricsBuilderConfig.Metrics.RecordSplunkAggregationQueueRatioDataPoint.Enabled {
 		return
 	}
 
@@ -399,7 +399,7 @@ func (s *splunkScraper) scrapeIndexerPipelineQueues(ctx context.Context, now pco
 				errs.Add(err)
 				continue
 			}
-			s.mb.RecordSplunkIndexQueueRatioDataPoint(now, v, host)
+			s.mb.RecordSplunkIndexerQueueRatioDataPoint(now, v, host)
 		case "parse_queue_ratio":
 			v, err := strconv.ParseFloat(f.Value, 64)
 			if err != nil {
@@ -430,7 +430,7 @@ func (s *splunkScraper) scrapeBucketsSearchableStatus(ctx context.Context, now p
 	var sr searchResponse
 	// Because we have to utilize network resources for each KPI we should check that each metrics
 	// is enabled before proceeding
-	if !s.conf.MetricsBuilderConfig.Metrics.SplunkAverageSchedulerExecutionLatency.Enabled {
+	if !s.conf.MetricsBuilderConfig.Metrics.SplunkBucketsSearchableStatus.Enabled {
 		return
 	}
 
@@ -518,7 +518,7 @@ func (s *splunkScraper) scrapeIndexesBucketCountAdHoc(ctx context.Context, now p
 	var sr searchResponse
 	// Because we have to utilize network resources for each KPI we should check that each metrics
 	// is enabled before proceeding
-	if !s.conf.MetricsBuilderConfig.Metrics.SplunkAverageSchedulerExecutionLatency.Enabled {
+	if !s.conf.MetricsBuilderConfig.Metrics.SplunkIndexesBucketCount.Enabled {
 		return
 	}
 
@@ -632,7 +632,7 @@ func (s *splunkScraper) scrapeSchedulerCompletionRatioByHost(ctx context.Context
 	var sr searchResponse
 	// Because we have to utilize network resources for each KPI we should check that each metrics
 	// is enabled before proceeding
-	if !s.conf.MetricsBuilderConfig.Metrics.SplunkAverageSchedulerExecutionLatency.Enabled {
+	if !s.conf.MetricsBuilderConfig.Metrics.SplunkSchedulerCompletionRatio.Enabled {
 		return
 	}
 
@@ -710,7 +710,7 @@ func (s *splunkScraper) scrapeIndexerRawWriteSecondsByHost(ctx context.Context, 
 	var sr searchResponse
 	// Because we have to utilize network resources for each KPI we should check that each metrics
 	// is enabled before proceeding
-	if !s.conf.MetricsBuilderConfig.Metrics.SplunkAverageSchedulerExecutionLatency.Enabled {
+	if !s.conf.MetricsBuilderConfig.Metrics.SplunkIndexerRawWriteSeconds.Enabled {
 		return
 	}
 
@@ -788,7 +788,7 @@ func (s *splunkScraper) scrapeIndexerCPUSecondsByHost(ctx context.Context, now p
 	var sr searchResponse
 	// Because we have to utilize network resources for each KPI we should check that each metrics
 	// is enabled before proceeding
-	if !s.conf.MetricsBuilderConfig.Metrics.SplunkAverageSchedulerExecutionLatency.Enabled {
+	if !s.conf.MetricsBuilderConfig.Metrics.SplunkIndexerCPUSeconds.Enabled {
 		return
 	}
 
@@ -866,7 +866,7 @@ func (s *splunkScraper) scrapeAvgIopsByHost(ctx context.Context, now pcommon.Tim
 	var sr searchResponse
 	// Because we have to utilize network resources for each KPI we should check that each metrics
 	// is enabled before proceeding
-	if !s.conf.MetricsBuilderConfig.Metrics.SplunkAverageSchedulerExecutionLatency.Enabled {
+	if !s.conf.MetricsBuilderConfig.Metrics.SplunkIoAverageIops.Enabled {
 		return
 	}
 
@@ -944,7 +944,7 @@ func (s *splunkScraper) scrapeSchedulerRunTimeByHost(ctx context.Context, now pc
 	var sr searchResponse
 	// Because we have to utilize network resources for each KPI we should check that each metrics
 	// is enabled before proceeding
-	if !s.conf.MetricsBuilderConfig.Metrics.SplunkAverageSchedulerExecutionLatency.Enabled {
+	if !s.conf.MetricsBuilderConfig.Metrics.SplunkSchedulerAverageRunTime.Enabled {
 		return
 	}
 
