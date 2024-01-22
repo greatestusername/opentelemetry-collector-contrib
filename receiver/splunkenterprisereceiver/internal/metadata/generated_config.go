@@ -26,8 +26,6 @@ func (ms *MetricConfig) Unmarshal(parser *confmap.Conf) error {
 // MetricsConfig provides config for splunkenterprise metrics.
 type MetricsConfig struct {
 	SplunkAggregationQueueRatio                 MetricConfig `mapstructure:"splunk.aggregation.queue.ratio"`
-	SplunkAverageSchedulerExecutionLatency      MetricConfig `mapstructure:"splunk.average.scheduler.execution.latency"`
-	SplunkAvgIndexerRate                        MetricConfig `mapstructure:"splunk.avg.indexer.rate"`
 	SplunkBucketsSearchableStatus               MetricConfig `mapstructure:"splunk.buckets.searchable.status"`
 	SplunkDataIndexesExtendedBucketCount        MetricConfig `mapstructure:"splunk.data.indexes.extended.bucket.count"`
 	SplunkDataIndexesExtendedBucketEventCount   MetricConfig `mapstructure:"splunk.data.indexes.extended.bucket.event.count"`
@@ -36,8 +34,9 @@ type MetricsConfig struct {
 	SplunkDataIndexesExtendedEventCount         MetricConfig `mapstructure:"splunk.data.indexes.extended.event.count"`
 	SplunkDataIndexesExtendedRawSize            MetricConfig `mapstructure:"splunk.data.indexes.extended.raw.size"`
 	SplunkDataIndexesExtendedTotalSize          MetricConfig `mapstructure:"splunk.data.indexes.extended.total.size"`
-	SplunkIndexQueueRatio                       MetricConfig `mapstructure:"splunk.index.queue.ratio"`
+	SplunkIndexerAvgRate                        MetricConfig `mapstructure:"splunk.indexer.avg.rate"`
 	SplunkIndexerCPUSeconds                     MetricConfig `mapstructure:"splunk.indexer.cpu.seconds"`
+	SplunkIndexerQueueRatio                     MetricConfig `mapstructure:"splunk.indexer.queue.ratio"`
 	SplunkIndexerRawWriteSeconds                MetricConfig `mapstructure:"splunk.indexer.raw.write.seconds"`
 	SplunkIndexerThroughput                     MetricConfig `mapstructure:"splunk.indexer.throughput"`
 	SplunkIndexesAvgSize                        MetricConfig `mapstructure:"splunk.indexes.avg.size"`
@@ -50,6 +49,7 @@ type MetricsConfig struct {
 	SplunkParseQueueRatio                       MetricConfig `mapstructure:"splunk.parse.queue.ratio"`
 	SplunkPipelineSetCount                      MetricConfig `mapstructure:"splunk.pipeline.set.count"`
 	SplunkSchedulerAverageRunTime               MetricConfig `mapstructure:"splunk.scheduler.average.run.time"`
+	SplunkSchedulerAvgExecutionLatency          MetricConfig `mapstructure:"splunk.scheduler.avg.execution.latency"`
 	SplunkSchedulerCompletionRatio              MetricConfig `mapstructure:"splunk.scheduler.completion.ratio"`
 	SplunkServerIntrospectionQueuesCurrent      MetricConfig `mapstructure:"splunk.server.introspection.queues.current"`
 	SplunkServerIntrospectionQueuesCurrentBytes MetricConfig `mapstructure:"splunk.server.introspection.queues.current.bytes"`
@@ -59,12 +59,6 @@ type MetricsConfig struct {
 func DefaultMetricsConfig() MetricsConfig {
 	return MetricsConfig{
 		SplunkAggregationQueueRatio: MetricConfig{
-			Enabled: true,
-		},
-		SplunkAverageSchedulerExecutionLatency: MetricConfig{
-			Enabled: true,
-		},
-		SplunkAvgIndexerRate: MetricConfig{
 			Enabled: true,
 		},
 		SplunkBucketsSearchableStatus: MetricConfig{
@@ -91,10 +85,13 @@ func DefaultMetricsConfig() MetricsConfig {
 		SplunkDataIndexesExtendedTotalSize: MetricConfig{
 			Enabled: false,
 		},
-		SplunkIndexQueueRatio: MetricConfig{
+		SplunkIndexerAvgRate: MetricConfig{
 			Enabled: true,
 		},
 		SplunkIndexerCPUSeconds: MetricConfig{
+			Enabled: true,
+		},
+		SplunkIndexerQueueRatio: MetricConfig{
 			Enabled: true,
 		},
 		SplunkIndexerRawWriteSeconds: MetricConfig{
@@ -131,6 +128,9 @@ func DefaultMetricsConfig() MetricsConfig {
 			Enabled: true,
 		},
 		SplunkSchedulerAverageRunTime: MetricConfig{
+			Enabled: true,
+		},
+		SplunkSchedulerAvgExecutionLatency: MetricConfig{
 			Enabled: true,
 		},
 		SplunkSchedulerCompletionRatio: MetricConfig{

@@ -26,34 +26,6 @@ Gauge tracking the average indexer aggregation queue ration (%). *Note:** Search
 | ---- | ----------- | ------ |
 | splunk.host | The name of the splunk host | Any Str |
 
-### splunk.average.scheduler.execution.latency
-
-Gauge tracking the average execution latency of scheduled searches
-
-| Unit | Metric Type | Value Type |
-| ---- | ----------- | ---------- |
-| {ms} | Gauge | Double |
-
-#### Attributes
-
-| Name | Description | Values |
-| ---- | ----------- | ------ |
-| splunk.host | The name of the splunk host | Any Str |
-
-### splunk.avg.indexer.rate
-
-Gauge tracking the average rate of indexed data. **Note:** Search is best run against a Cluster Manager.
-
-| Unit | Metric Type | Value Type |
-| ---- | ----------- | ---------- |
-| KBy | Gauge | Double |
-
-#### Attributes
-
-| Name | Description | Values |
-| ---- | ----------- | ------ |
-| splunk.host | The name of the splunk host | Any Str |
-
 ### splunk.buckets.searchable.status
 
 Gauge tracking the number of buckets and their searchable status. *Note:** Search is best run against a Cluster Manager.
@@ -69,13 +41,13 @@ Gauge tracking the number of buckets and their searchable status. *Note:** Searc
 | splunk.host | The name of the splunk host | Any Str |
 | splunk.indexer.searchable | The searchability status reported for a specific object | Any Str |
 
-### splunk.index.queue.ratio
+### splunk.indexer.avg.rate
 
-Gauge tracking the average indexer index queue ration (%). *Note:** Search is best run against a Cluster Manager.
+Gauge tracking the average rate of indexed data. **Note:** Search is best run against a Cluster Manager.
 
 | Unit | Metric Type | Value Type |
 | ---- | ----------- | ---------- |
-| {%} | Gauge | Double |
+| KBy | Gauge | Double |
 
 #### Attributes
 
@@ -90,6 +62,20 @@ Gauge tracking the number of indexing process cpu seconds per instance
 | Unit | Metric Type | Value Type |
 | ---- | ----------- | ---------- |
 | {s} | Gauge | Double |
+
+#### Attributes
+
+| Name | Description | Values |
+| ---- | ----------- | ------ |
+| splunk.host | The name of the splunk host | Any Str |
+
+### splunk.indexer.queue.ratio
+
+Gauge tracking the average indexer index queue ration (%). *Note:** Search is best run against a Cluster Manager.
+
+| Unit | Metric Type | Value Type |
+| ---- | ----------- | ---------- |
+| {%} | Gauge | Double |
 
 #### Attributes
 
@@ -240,6 +226,20 @@ Gauge tracking the number of pipeline sets per indexer. **Note:** Search is best
 ### splunk.scheduler.average.run.time
 
 Gauge tracking the average runtime of scheduled searches
+
+| Unit | Metric Type | Value Type |
+| ---- | ----------- | ---------- |
+| {ms} | Gauge | Double |
+
+#### Attributes
+
+| Name | Description | Values |
+| ---- | ----------- | ------ |
+| splunk.host | The name of the splunk host | Any Str |
+
+### splunk.scheduler.avg.execution.latency
+
+Gauge tracking the average execution latency of scheduled searches
 
 | Unit | Metric Type | Value Type |
 | ---- | ----------- | ---------- |

@@ -36,7 +36,7 @@ metrics:
     gauge:
       value_type: int 
     attributes: [splunk.index.name]
-  splunk.average.scheduler.execution.latency:
+  splunk.scheduler.avg.execution.latency:
     enabled: true
     description: Gauge tracking the average execution latency of scheduled searches
     unit: '{ms}'
@@ -50,7 +50,7 @@ metrics:
     gauge:
       value_type: double 
     attributes: [splunk.host]
-  splunk.avg.indexer.rate:
+  splunk.indexer.avg.rate:
     enabled: true
     description: Gauge tracking the average rate of indexed data. **Note:** Search is best run against a Cluster Manager.
     unit: KBy
@@ -85,7 +85,7 @@ metrics:
     gauge:
       value_type: double 
     attributes: [splunk.host]  
-  splunk.index.queue.ratio:
+  splunk.indexer.queue.ratio:
     enabled: true
     description: Gauge tracking the average indexer index queue ration (%). *Note:** Search is best run against a Cluster Manager.
     unit: '{%}'

@@ -62,108 +62,6 @@ func newMetricSplunkAggregationQueueRatio(cfg MetricConfig) metricSplunkAggregat
 	return m
 }
 
-type metricSplunkAverageSchedulerExecutionLatency struct {
-	data     pmetric.Metric // data buffer for generated metric.
-	config   MetricConfig   // metric config provided by user.
-	capacity int            // max observed number of data points added to the metric.
-}
-
-// init fills splunk.average.scheduler.execution.latency metric with initial data.
-func (m *metricSplunkAverageSchedulerExecutionLatency) init() {
-	m.data.SetName("splunk.average.scheduler.execution.latency")
-	m.data.SetDescription("Gauge tracking the average execution latency of scheduled searches")
-	m.data.SetUnit("{ms}")
-	m.data.SetEmptyGauge()
-	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
-}
-
-func (m *metricSplunkAverageSchedulerExecutionLatency) recordDataPoint(start pcommon.Timestamp, ts pcommon.Timestamp, val float64, splunkHostAttributeValue string) {
-	if !m.config.Enabled {
-		return
-	}
-	dp := m.data.Gauge().DataPoints().AppendEmpty()
-	dp.SetStartTimestamp(start)
-	dp.SetTimestamp(ts)
-	dp.SetDoubleValue(val)
-	dp.Attributes().PutStr("splunk.host", splunkHostAttributeValue)
-}
-
-// updateCapacity saves max length of data point slices that will be used for the slice capacity.
-func (m *metricSplunkAverageSchedulerExecutionLatency) updateCapacity() {
-	if m.data.Gauge().DataPoints().Len() > m.capacity {
-		m.capacity = m.data.Gauge().DataPoints().Len()
-	}
-}
-
-// emit appends recorded metric data to a metrics slice and prepares it for recording another set of data points.
-func (m *metricSplunkAverageSchedulerExecutionLatency) emit(metrics pmetric.MetricSlice) {
-	if m.config.Enabled && m.data.Gauge().DataPoints().Len() > 0 {
-		m.updateCapacity()
-		m.data.MoveTo(metrics.AppendEmpty())
-		m.init()
-	}
-}
-
-func newMetricSplunkAverageSchedulerExecutionLatency(cfg MetricConfig) metricSplunkAverageSchedulerExecutionLatency {
-	m := metricSplunkAverageSchedulerExecutionLatency{config: cfg}
-	if cfg.Enabled {
-		m.data = pmetric.NewMetric()
-		m.init()
-	}
-	return m
-}
-
-type metricSplunkAvgIndexerRate struct {
-	data     pmetric.Metric // data buffer for generated metric.
-	config   MetricConfig   // metric config provided by user.
-	capacity int            // max observed number of data points added to the metric.
-}
-
-// init fills splunk.avg.indexer.rate metric with initial data.
-func (m *metricSplunkAvgIndexerRate) init() {
-	m.data.SetName("splunk.avg.indexer.rate")
-	m.data.SetDescription("Gauge tracking the average rate of indexed data. **Note:** Search is best run against a Cluster Manager.")
-	m.data.SetUnit("KBy")
-	m.data.SetEmptyGauge()
-	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
-}
-
-func (m *metricSplunkAvgIndexerRate) recordDataPoint(start pcommon.Timestamp, ts pcommon.Timestamp, val float64, splunkHostAttributeValue string) {
-	if !m.config.Enabled {
-		return
-	}
-	dp := m.data.Gauge().DataPoints().AppendEmpty()
-	dp.SetStartTimestamp(start)
-	dp.SetTimestamp(ts)
-	dp.SetDoubleValue(val)
-	dp.Attributes().PutStr("splunk.host", splunkHostAttributeValue)
-}
-
-// updateCapacity saves max length of data point slices that will be used for the slice capacity.
-func (m *metricSplunkAvgIndexerRate) updateCapacity() {
-	if m.data.Gauge().DataPoints().Len() > m.capacity {
-		m.capacity = m.data.Gauge().DataPoints().Len()
-	}
-}
-
-// emit appends recorded metric data to a metrics slice and prepares it for recording another set of data points.
-func (m *metricSplunkAvgIndexerRate) emit(metrics pmetric.MetricSlice) {
-	if m.config.Enabled && m.data.Gauge().DataPoints().Len() > 0 {
-		m.updateCapacity()
-		m.data.MoveTo(metrics.AppendEmpty())
-		m.init()
-	}
-}
-
-func newMetricSplunkAvgIndexerRate(cfg MetricConfig) metricSplunkAvgIndexerRate {
-	m := metricSplunkAvgIndexerRate{config: cfg}
-	if cfg.Enabled {
-		m.data = pmetric.NewMetric()
-		m.init()
-	}
-	return m
-}
-
 type metricSplunkBucketsSearchableStatus struct {
 	data     pmetric.Metric // data buffer for generated metric.
 	config   MetricConfig   // metric config provided by user.
@@ -576,22 +474,22 @@ func newMetricSplunkDataIndexesExtendedTotalSize(cfg MetricConfig) metricSplunkD
 	return m
 }
 
-type metricSplunkIndexQueueRatio struct {
+type metricSplunkIndexerAvgRate struct {
 	data     pmetric.Metric // data buffer for generated metric.
 	config   MetricConfig   // metric config provided by user.
 	capacity int            // max observed number of data points added to the metric.
 }
 
-// init fills splunk.index.queue.ratio metric with initial data.
-func (m *metricSplunkIndexQueueRatio) init() {
-	m.data.SetName("splunk.index.queue.ratio")
-	m.data.SetDescription("Gauge tracking the average indexer index queue ration (%). *Note:** Search is best run against a Cluster Manager.")
-	m.data.SetUnit("{%}")
+// init fills splunk.indexer.avg.rate metric with initial data.
+func (m *metricSplunkIndexerAvgRate) init() {
+	m.data.SetName("splunk.indexer.avg.rate")
+	m.data.SetDescription("Gauge tracking the average rate of indexed data. **Note:** Search is best run against a Cluster Manager.")
+	m.data.SetUnit("KBy")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
 }
 
-func (m *metricSplunkIndexQueueRatio) recordDataPoint(start pcommon.Timestamp, ts pcommon.Timestamp, val float64, splunkHostAttributeValue string) {
+func (m *metricSplunkIndexerAvgRate) recordDataPoint(start pcommon.Timestamp, ts pcommon.Timestamp, val float64, splunkHostAttributeValue string) {
 	if !m.config.Enabled {
 		return
 	}
@@ -603,14 +501,14 @@ func (m *metricSplunkIndexQueueRatio) recordDataPoint(start pcommon.Timestamp, t
 }
 
 // updateCapacity saves max length of data point slices that will be used for the slice capacity.
-func (m *metricSplunkIndexQueueRatio) updateCapacity() {
+func (m *metricSplunkIndexerAvgRate) updateCapacity() {
 	if m.data.Gauge().DataPoints().Len() > m.capacity {
 		m.capacity = m.data.Gauge().DataPoints().Len()
 	}
 }
 
 // emit appends recorded metric data to a metrics slice and prepares it for recording another set of data points.
-func (m *metricSplunkIndexQueueRatio) emit(metrics pmetric.MetricSlice) {
+func (m *metricSplunkIndexerAvgRate) emit(metrics pmetric.MetricSlice) {
 	if m.config.Enabled && m.data.Gauge().DataPoints().Len() > 0 {
 		m.updateCapacity()
 		m.data.MoveTo(metrics.AppendEmpty())
@@ -618,8 +516,8 @@ func (m *metricSplunkIndexQueueRatio) emit(metrics pmetric.MetricSlice) {
 	}
 }
 
-func newMetricSplunkIndexQueueRatio(cfg MetricConfig) metricSplunkIndexQueueRatio {
-	m := metricSplunkIndexQueueRatio{config: cfg}
+func newMetricSplunkIndexerAvgRate(cfg MetricConfig) metricSplunkIndexerAvgRate {
+	m := metricSplunkIndexerAvgRate{config: cfg}
 	if cfg.Enabled {
 		m.data = pmetric.NewMetric()
 		m.init()
@@ -671,6 +569,57 @@ func (m *metricSplunkIndexerCPUSeconds) emit(metrics pmetric.MetricSlice) {
 
 func newMetricSplunkIndexerCPUSeconds(cfg MetricConfig) metricSplunkIndexerCPUSeconds {
 	m := metricSplunkIndexerCPUSeconds{config: cfg}
+	if cfg.Enabled {
+		m.data = pmetric.NewMetric()
+		m.init()
+	}
+	return m
+}
+
+type metricSplunkIndexerQueueRatio struct {
+	data     pmetric.Metric // data buffer for generated metric.
+	config   MetricConfig   // metric config provided by user.
+	capacity int            // max observed number of data points added to the metric.
+}
+
+// init fills splunk.indexer.queue.ratio metric with initial data.
+func (m *metricSplunkIndexerQueueRatio) init() {
+	m.data.SetName("splunk.indexer.queue.ratio")
+	m.data.SetDescription("Gauge tracking the average indexer index queue ration (%). *Note:** Search is best run against a Cluster Manager.")
+	m.data.SetUnit("{%}")
+	m.data.SetEmptyGauge()
+	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
+}
+
+func (m *metricSplunkIndexerQueueRatio) recordDataPoint(start pcommon.Timestamp, ts pcommon.Timestamp, val float64, splunkHostAttributeValue string) {
+	if !m.config.Enabled {
+		return
+	}
+	dp := m.data.Gauge().DataPoints().AppendEmpty()
+	dp.SetStartTimestamp(start)
+	dp.SetTimestamp(ts)
+	dp.SetDoubleValue(val)
+	dp.Attributes().PutStr("splunk.host", splunkHostAttributeValue)
+}
+
+// updateCapacity saves max length of data point slices that will be used for the slice capacity.
+func (m *metricSplunkIndexerQueueRatio) updateCapacity() {
+	if m.data.Gauge().DataPoints().Len() > m.capacity {
+		m.capacity = m.data.Gauge().DataPoints().Len()
+	}
+}
+
+// emit appends recorded metric data to a metrics slice and prepares it for recording another set of data points.
+func (m *metricSplunkIndexerQueueRatio) emit(metrics pmetric.MetricSlice) {
+	if m.config.Enabled && m.data.Gauge().DataPoints().Len() > 0 {
+		m.updateCapacity()
+		m.data.MoveTo(metrics.AppendEmpty())
+		m.init()
+	}
+}
+
+func newMetricSplunkIndexerQueueRatio(cfg MetricConfig) metricSplunkIndexerQueueRatio {
+	m := metricSplunkIndexerQueueRatio{config: cfg}
 	if cfg.Enabled {
 		m.data = pmetric.NewMetric()
 		m.init()
@@ -1290,6 +1239,57 @@ func newMetricSplunkSchedulerAverageRunTime(cfg MetricConfig) metricSplunkSchedu
 	return m
 }
 
+type metricSplunkSchedulerAvgExecutionLatency struct {
+	data     pmetric.Metric // data buffer for generated metric.
+	config   MetricConfig   // metric config provided by user.
+	capacity int            // max observed number of data points added to the metric.
+}
+
+// init fills splunk.scheduler.avg.execution.latency metric with initial data.
+func (m *metricSplunkSchedulerAvgExecutionLatency) init() {
+	m.data.SetName("splunk.scheduler.avg.execution.latency")
+	m.data.SetDescription("Gauge tracking the average execution latency of scheduled searches")
+	m.data.SetUnit("{ms}")
+	m.data.SetEmptyGauge()
+	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
+}
+
+func (m *metricSplunkSchedulerAvgExecutionLatency) recordDataPoint(start pcommon.Timestamp, ts pcommon.Timestamp, val float64, splunkHostAttributeValue string) {
+	if !m.config.Enabled {
+		return
+	}
+	dp := m.data.Gauge().DataPoints().AppendEmpty()
+	dp.SetStartTimestamp(start)
+	dp.SetTimestamp(ts)
+	dp.SetDoubleValue(val)
+	dp.Attributes().PutStr("splunk.host", splunkHostAttributeValue)
+}
+
+// updateCapacity saves max length of data point slices that will be used for the slice capacity.
+func (m *metricSplunkSchedulerAvgExecutionLatency) updateCapacity() {
+	if m.data.Gauge().DataPoints().Len() > m.capacity {
+		m.capacity = m.data.Gauge().DataPoints().Len()
+	}
+}
+
+// emit appends recorded metric data to a metrics slice and prepares it for recording another set of data points.
+func (m *metricSplunkSchedulerAvgExecutionLatency) emit(metrics pmetric.MetricSlice) {
+	if m.config.Enabled && m.data.Gauge().DataPoints().Len() > 0 {
+		m.updateCapacity()
+		m.data.MoveTo(metrics.AppendEmpty())
+		m.init()
+	}
+}
+
+func newMetricSplunkSchedulerAvgExecutionLatency(cfg MetricConfig) metricSplunkSchedulerAvgExecutionLatency {
+	m := metricSplunkSchedulerAvgExecutionLatency{config: cfg}
+	if cfg.Enabled {
+		m.data = pmetric.NewMetric()
+		m.init()
+	}
+	return m
+}
+
 type metricSplunkSchedulerCompletionRatio struct {
 	data     pmetric.Metric // data buffer for generated metric.
 	config   MetricConfig   // metric config provided by user.
@@ -1503,8 +1503,6 @@ type MetricsBuilder struct {
 	metricsBuffer                                     pmetric.Metrics      // accumulates metrics data before emitting.
 	buildInfo                                         component.BuildInfo  // contains version information.
 	metricSplunkAggregationQueueRatio                 metricSplunkAggregationQueueRatio
-	metricSplunkAverageSchedulerExecutionLatency      metricSplunkAverageSchedulerExecutionLatency
-	metricSplunkAvgIndexerRate                        metricSplunkAvgIndexerRate
 	metricSplunkBucketsSearchableStatus               metricSplunkBucketsSearchableStatus
 	metricSplunkDataIndexesExtendedBucketCount        metricSplunkDataIndexesExtendedBucketCount
 	metricSplunkDataIndexesExtendedBucketEventCount   metricSplunkDataIndexesExtendedBucketEventCount
@@ -1513,8 +1511,9 @@ type MetricsBuilder struct {
 	metricSplunkDataIndexesExtendedEventCount         metricSplunkDataIndexesExtendedEventCount
 	metricSplunkDataIndexesExtendedRawSize            metricSplunkDataIndexesExtendedRawSize
 	metricSplunkDataIndexesExtendedTotalSize          metricSplunkDataIndexesExtendedTotalSize
-	metricSplunkIndexQueueRatio                       metricSplunkIndexQueueRatio
+	metricSplunkIndexerAvgRate                        metricSplunkIndexerAvgRate
 	metricSplunkIndexerCPUSeconds                     metricSplunkIndexerCPUSeconds
+	metricSplunkIndexerQueueRatio                     metricSplunkIndexerQueueRatio
 	metricSplunkIndexerRawWriteSeconds                metricSplunkIndexerRawWriteSeconds
 	metricSplunkIndexerThroughput                     metricSplunkIndexerThroughput
 	metricSplunkIndexesAvgSize                        metricSplunkIndexesAvgSize
@@ -1527,6 +1526,7 @@ type MetricsBuilder struct {
 	metricSplunkParseQueueRatio                       metricSplunkParseQueueRatio
 	metricSplunkPipelineSetCount                      metricSplunkPipelineSetCount
 	metricSplunkSchedulerAverageRunTime               metricSplunkSchedulerAverageRunTime
+	metricSplunkSchedulerAvgExecutionLatency          metricSplunkSchedulerAvgExecutionLatency
 	metricSplunkSchedulerCompletionRatio              metricSplunkSchedulerCompletionRatio
 	metricSplunkServerIntrospectionQueuesCurrent      metricSplunkServerIntrospectionQueuesCurrent
 	metricSplunkServerIntrospectionQueuesCurrentBytes metricSplunkServerIntrospectionQueuesCurrentBytes
@@ -1545,14 +1545,12 @@ func WithStartTime(startTime pcommon.Timestamp) metricBuilderOption {
 
 func NewMetricsBuilder(mbc MetricsBuilderConfig, settings receiver.CreateSettings, options ...metricBuilderOption) *MetricsBuilder {
 	mb := &MetricsBuilder{
-		config:                            mbc,
-		startTime:                         pcommon.NewTimestampFromTime(time.Now()),
-		metricsBuffer:                     pmetric.NewMetrics(),
-		buildInfo:                         settings.BuildInfo,
-		metricSplunkAggregationQueueRatio: newMetricSplunkAggregationQueueRatio(mbc.Metrics.SplunkAggregationQueueRatio),
-		metricSplunkAverageSchedulerExecutionLatency:      newMetricSplunkAverageSchedulerExecutionLatency(mbc.Metrics.SplunkAverageSchedulerExecutionLatency),
-		metricSplunkAvgIndexerRate:                        newMetricSplunkAvgIndexerRate(mbc.Metrics.SplunkAvgIndexerRate),
-		metricSplunkBucketsSearchableStatus:               newMetricSplunkBucketsSearchableStatus(mbc.Metrics.SplunkBucketsSearchableStatus),
+		config:                              mbc,
+		startTime:                           pcommon.NewTimestampFromTime(time.Now()),
+		metricsBuffer:                       pmetric.NewMetrics(),
+		buildInfo:                           settings.BuildInfo,
+		metricSplunkAggregationQueueRatio:   newMetricSplunkAggregationQueueRatio(mbc.Metrics.SplunkAggregationQueueRatio),
+		metricSplunkBucketsSearchableStatus: newMetricSplunkBucketsSearchableStatus(mbc.Metrics.SplunkBucketsSearchableStatus),
 		metricSplunkDataIndexesExtendedBucketCount:        newMetricSplunkDataIndexesExtendedBucketCount(mbc.Metrics.SplunkDataIndexesExtendedBucketCount),
 		metricSplunkDataIndexesExtendedBucketEventCount:   newMetricSplunkDataIndexesExtendedBucketEventCount(mbc.Metrics.SplunkDataIndexesExtendedBucketEventCount),
 		metricSplunkDataIndexesExtendedBucketHotCount:     newMetricSplunkDataIndexesExtendedBucketHotCount(mbc.Metrics.SplunkDataIndexesExtendedBucketHotCount),
@@ -1560,8 +1558,9 @@ func NewMetricsBuilder(mbc MetricsBuilderConfig, settings receiver.CreateSetting
 		metricSplunkDataIndexesExtendedEventCount:         newMetricSplunkDataIndexesExtendedEventCount(mbc.Metrics.SplunkDataIndexesExtendedEventCount),
 		metricSplunkDataIndexesExtendedRawSize:            newMetricSplunkDataIndexesExtendedRawSize(mbc.Metrics.SplunkDataIndexesExtendedRawSize),
 		metricSplunkDataIndexesExtendedTotalSize:          newMetricSplunkDataIndexesExtendedTotalSize(mbc.Metrics.SplunkDataIndexesExtendedTotalSize),
-		metricSplunkIndexQueueRatio:                       newMetricSplunkIndexQueueRatio(mbc.Metrics.SplunkIndexQueueRatio),
+		metricSplunkIndexerAvgRate:                        newMetricSplunkIndexerAvgRate(mbc.Metrics.SplunkIndexerAvgRate),
 		metricSplunkIndexerCPUSeconds:                     newMetricSplunkIndexerCPUSeconds(mbc.Metrics.SplunkIndexerCPUSeconds),
+		metricSplunkIndexerQueueRatio:                     newMetricSplunkIndexerQueueRatio(mbc.Metrics.SplunkIndexerQueueRatio),
 		metricSplunkIndexerRawWriteSeconds:                newMetricSplunkIndexerRawWriteSeconds(mbc.Metrics.SplunkIndexerRawWriteSeconds),
 		metricSplunkIndexerThroughput:                     newMetricSplunkIndexerThroughput(mbc.Metrics.SplunkIndexerThroughput),
 		metricSplunkIndexesAvgSize:                        newMetricSplunkIndexesAvgSize(mbc.Metrics.SplunkIndexesAvgSize),
@@ -1574,6 +1573,7 @@ func NewMetricsBuilder(mbc MetricsBuilderConfig, settings receiver.CreateSetting
 		metricSplunkParseQueueRatio:                       newMetricSplunkParseQueueRatio(mbc.Metrics.SplunkParseQueueRatio),
 		metricSplunkPipelineSetCount:                      newMetricSplunkPipelineSetCount(mbc.Metrics.SplunkPipelineSetCount),
 		metricSplunkSchedulerAverageRunTime:               newMetricSplunkSchedulerAverageRunTime(mbc.Metrics.SplunkSchedulerAverageRunTime),
+		metricSplunkSchedulerAvgExecutionLatency:          newMetricSplunkSchedulerAvgExecutionLatency(mbc.Metrics.SplunkSchedulerAvgExecutionLatency),
 		metricSplunkSchedulerCompletionRatio:              newMetricSplunkSchedulerCompletionRatio(mbc.Metrics.SplunkSchedulerCompletionRatio),
 		metricSplunkServerIntrospectionQueuesCurrent:      newMetricSplunkServerIntrospectionQueuesCurrent(mbc.Metrics.SplunkServerIntrospectionQueuesCurrent),
 		metricSplunkServerIntrospectionQueuesCurrentBytes: newMetricSplunkServerIntrospectionQueuesCurrentBytes(mbc.Metrics.SplunkServerIntrospectionQueuesCurrentBytes),
@@ -1635,8 +1635,6 @@ func (mb *MetricsBuilder) EmitForResource(rmo ...ResourceMetricsOption) {
 	ils.Scope().SetVersion(mb.buildInfo.Version)
 	ils.Metrics().EnsureCapacity(mb.metricsCapacity)
 	mb.metricSplunkAggregationQueueRatio.emit(ils.Metrics())
-	mb.metricSplunkAverageSchedulerExecutionLatency.emit(ils.Metrics())
-	mb.metricSplunkAvgIndexerRate.emit(ils.Metrics())
 	mb.metricSplunkBucketsSearchableStatus.emit(ils.Metrics())
 	mb.metricSplunkDataIndexesExtendedBucketCount.emit(ils.Metrics())
 	mb.metricSplunkDataIndexesExtendedBucketEventCount.emit(ils.Metrics())
@@ -1645,8 +1643,9 @@ func (mb *MetricsBuilder) EmitForResource(rmo ...ResourceMetricsOption) {
 	mb.metricSplunkDataIndexesExtendedEventCount.emit(ils.Metrics())
 	mb.metricSplunkDataIndexesExtendedRawSize.emit(ils.Metrics())
 	mb.metricSplunkDataIndexesExtendedTotalSize.emit(ils.Metrics())
-	mb.metricSplunkIndexQueueRatio.emit(ils.Metrics())
+	mb.metricSplunkIndexerAvgRate.emit(ils.Metrics())
 	mb.metricSplunkIndexerCPUSeconds.emit(ils.Metrics())
+	mb.metricSplunkIndexerQueueRatio.emit(ils.Metrics())
 	mb.metricSplunkIndexerRawWriteSeconds.emit(ils.Metrics())
 	mb.metricSplunkIndexerThroughput.emit(ils.Metrics())
 	mb.metricSplunkIndexesAvgSize.emit(ils.Metrics())
@@ -1659,6 +1658,7 @@ func (mb *MetricsBuilder) EmitForResource(rmo ...ResourceMetricsOption) {
 	mb.metricSplunkParseQueueRatio.emit(ils.Metrics())
 	mb.metricSplunkPipelineSetCount.emit(ils.Metrics())
 	mb.metricSplunkSchedulerAverageRunTime.emit(ils.Metrics())
+	mb.metricSplunkSchedulerAvgExecutionLatency.emit(ils.Metrics())
 	mb.metricSplunkSchedulerCompletionRatio.emit(ils.Metrics())
 	mb.metricSplunkServerIntrospectionQueuesCurrent.emit(ils.Metrics())
 	mb.metricSplunkServerIntrospectionQueuesCurrentBytes.emit(ils.Metrics())
@@ -1686,16 +1686,6 @@ func (mb *MetricsBuilder) Emit(rmo ...ResourceMetricsOption) pmetric.Metrics {
 // RecordSplunkAggregationQueueRatioDataPoint adds a data point to splunk.aggregation.queue.ratio metric.
 func (mb *MetricsBuilder) RecordSplunkAggregationQueueRatioDataPoint(ts pcommon.Timestamp, val float64, splunkHostAttributeValue string) {
 	mb.metricSplunkAggregationQueueRatio.recordDataPoint(mb.startTime, ts, val, splunkHostAttributeValue)
-}
-
-// RecordSplunkAverageSchedulerExecutionLatencyDataPoint adds a data point to splunk.average.scheduler.execution.latency metric.
-func (mb *MetricsBuilder) RecordSplunkAverageSchedulerExecutionLatencyDataPoint(ts pcommon.Timestamp, val float64, splunkHostAttributeValue string) {
-	mb.metricSplunkAverageSchedulerExecutionLatency.recordDataPoint(mb.startTime, ts, val, splunkHostAttributeValue)
-}
-
-// RecordSplunkAvgIndexerRateDataPoint adds a data point to splunk.avg.indexer.rate metric.
-func (mb *MetricsBuilder) RecordSplunkAvgIndexerRateDataPoint(ts pcommon.Timestamp, val float64, splunkHostAttributeValue string) {
-	mb.metricSplunkAvgIndexerRate.recordDataPoint(mb.startTime, ts, val, splunkHostAttributeValue)
 }
 
 // RecordSplunkBucketsSearchableStatusDataPoint adds a data point to splunk.buckets.searchable.status metric.
@@ -1738,14 +1728,19 @@ func (mb *MetricsBuilder) RecordSplunkDataIndexesExtendedTotalSizeDataPoint(ts p
 	mb.metricSplunkDataIndexesExtendedTotalSize.recordDataPoint(mb.startTime, ts, val, splunkIndexNameAttributeValue)
 }
 
-// RecordSplunkIndexQueueRatioDataPoint adds a data point to splunk.index.queue.ratio metric.
-func (mb *MetricsBuilder) RecordSplunkIndexQueueRatioDataPoint(ts pcommon.Timestamp, val float64, splunkHostAttributeValue string) {
-	mb.metricSplunkIndexQueueRatio.recordDataPoint(mb.startTime, ts, val, splunkHostAttributeValue)
+// RecordSplunkIndexerAvgRateDataPoint adds a data point to splunk.indexer.avg.rate metric.
+func (mb *MetricsBuilder) RecordSplunkIndexerAvgRateDataPoint(ts pcommon.Timestamp, val float64, splunkHostAttributeValue string) {
+	mb.metricSplunkIndexerAvgRate.recordDataPoint(mb.startTime, ts, val, splunkHostAttributeValue)
 }
 
 // RecordSplunkIndexerCPUSecondsDataPoint adds a data point to splunk.indexer.cpu.seconds metric.
 func (mb *MetricsBuilder) RecordSplunkIndexerCPUSecondsDataPoint(ts pcommon.Timestamp, val float64, splunkHostAttributeValue string) {
 	mb.metricSplunkIndexerCPUSeconds.recordDataPoint(mb.startTime, ts, val, splunkHostAttributeValue)
+}
+
+// RecordSplunkIndexerQueueRatioDataPoint adds a data point to splunk.indexer.queue.ratio metric.
+func (mb *MetricsBuilder) RecordSplunkIndexerQueueRatioDataPoint(ts pcommon.Timestamp, val float64, splunkHostAttributeValue string) {
+	mb.metricSplunkIndexerQueueRatio.recordDataPoint(mb.startTime, ts, val, splunkHostAttributeValue)
 }
 
 // RecordSplunkIndexerRawWriteSecondsDataPoint adds a data point to splunk.indexer.raw.write.seconds metric.
@@ -1806,6 +1801,11 @@ func (mb *MetricsBuilder) RecordSplunkPipelineSetCountDataPoint(ts pcommon.Times
 // RecordSplunkSchedulerAverageRunTimeDataPoint adds a data point to splunk.scheduler.average.run.time metric.
 func (mb *MetricsBuilder) RecordSplunkSchedulerAverageRunTimeDataPoint(ts pcommon.Timestamp, val float64, splunkHostAttributeValue string) {
 	mb.metricSplunkSchedulerAverageRunTime.recordDataPoint(mb.startTime, ts, val, splunkHostAttributeValue)
+}
+
+// RecordSplunkSchedulerAvgExecutionLatencyDataPoint adds a data point to splunk.scheduler.avg.execution.latency metric.
+func (mb *MetricsBuilder) RecordSplunkSchedulerAvgExecutionLatencyDataPoint(ts pcommon.Timestamp, val float64, splunkHostAttributeValue string) {
+	mb.metricSplunkSchedulerAvgExecutionLatency.recordDataPoint(mb.startTime, ts, val, splunkHostAttributeValue)
 }
 
 // RecordSplunkSchedulerCompletionRatioDataPoint adds a data point to splunk.scheduler.completion.ratio metric.

@@ -61,14 +61,6 @@ func TestMetricsBuilder(t *testing.T) {
 
 			defaultMetricsCount++
 			allMetricsCount++
-			mb.RecordSplunkAverageSchedulerExecutionLatencyDataPoint(ts, 1, "splunk.host-val")
-
-			defaultMetricsCount++
-			allMetricsCount++
-			mb.RecordSplunkAvgIndexerRateDataPoint(ts, 1, "splunk.host-val")
-
-			defaultMetricsCount++
-			allMetricsCount++
 			mb.RecordSplunkBucketsSearchableStatusDataPoint(ts, 1, "splunk.host-val", "splunk.indexer.searchable-val")
 
 			allMetricsCount++
@@ -94,11 +86,15 @@ func TestMetricsBuilder(t *testing.T) {
 
 			defaultMetricsCount++
 			allMetricsCount++
-			mb.RecordSplunkIndexQueueRatioDataPoint(ts, 1, "splunk.host-val")
+			mb.RecordSplunkIndexerAvgRateDataPoint(ts, 1, "splunk.host-val")
 
 			defaultMetricsCount++
 			allMetricsCount++
 			mb.RecordSplunkIndexerCPUSecondsDataPoint(ts, 1, "splunk.host-val")
+
+			defaultMetricsCount++
+			allMetricsCount++
+			mb.RecordSplunkIndexerQueueRatioDataPoint(ts, 1, "splunk.host-val")
 
 			defaultMetricsCount++
 			allMetricsCount++
@@ -149,6 +145,10 @@ func TestMetricsBuilder(t *testing.T) {
 
 			defaultMetricsCount++
 			allMetricsCount++
+			mb.RecordSplunkSchedulerAvgExecutionLatencyDataPoint(ts, 1, "splunk.host-val")
+
+			defaultMetricsCount++
+			allMetricsCount++
 			mb.RecordSplunkSchedulerCompletionRatioDataPoint(ts, 1, "splunk.host-val")
 
 			allMetricsCount++
@@ -190,36 +190,6 @@ func TestMetricsBuilder(t *testing.T) {
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
 					assert.Equal(t, "Gauge tracking the average indexer aggregation queue ration (%). *Note:** Search is best run against a Cluster Manager.", ms.At(i).Description())
 					assert.Equal(t, "{%}", ms.At(i).Unit())
-					dp := ms.At(i).Gauge().DataPoints().At(0)
-					assert.Equal(t, start, dp.StartTimestamp())
-					assert.Equal(t, ts, dp.Timestamp())
-					assert.Equal(t, pmetric.NumberDataPointValueTypeDouble, dp.ValueType())
-					assert.Equal(t, float64(1), dp.DoubleValue())
-					attrVal, ok := dp.Attributes().Get("splunk.host")
-					assert.True(t, ok)
-					assert.EqualValues(t, "splunk.host-val", attrVal.Str())
-				case "splunk.average.scheduler.execution.latency":
-					assert.False(t, validatedMetrics["splunk.average.scheduler.execution.latency"], "Found a duplicate in the metrics slice: splunk.average.scheduler.execution.latency")
-					validatedMetrics["splunk.average.scheduler.execution.latency"] = true
-					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
-					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking the average execution latency of scheduled searches", ms.At(i).Description())
-					assert.Equal(t, "{ms}", ms.At(i).Unit())
-					dp := ms.At(i).Gauge().DataPoints().At(0)
-					assert.Equal(t, start, dp.StartTimestamp())
-					assert.Equal(t, ts, dp.Timestamp())
-					assert.Equal(t, pmetric.NumberDataPointValueTypeDouble, dp.ValueType())
-					assert.Equal(t, float64(1), dp.DoubleValue())
-					attrVal, ok := dp.Attributes().Get("splunk.host")
-					assert.True(t, ok)
-					assert.EqualValues(t, "splunk.host-val", attrVal.Str())
-				case "splunk.avg.indexer.rate":
-					assert.False(t, validatedMetrics["splunk.avg.indexer.rate"], "Found a duplicate in the metrics slice: splunk.avg.indexer.rate")
-					validatedMetrics["splunk.avg.indexer.rate"] = true
-					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
-					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking the average rate of indexed data. **Note:** Search is best run against a Cluster Manager.", ms.At(i).Description())
-					assert.Equal(t, "KBy", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
 					assert.Equal(t, ts, dp.Timestamp())
@@ -360,13 +330,13 @@ func TestMetricsBuilder(t *testing.T) {
 					attrVal, ok := dp.Attributes().Get("splunk.index.name")
 					assert.True(t, ok)
 					assert.EqualValues(t, "splunk.index.name-val", attrVal.Str())
-				case "splunk.index.queue.ratio":
-					assert.False(t, validatedMetrics["splunk.index.queue.ratio"], "Found a duplicate in the metrics slice: splunk.index.queue.ratio")
-					validatedMetrics["splunk.index.queue.ratio"] = true
+				case "splunk.indexer.avg.rate":
+					assert.False(t, validatedMetrics["splunk.indexer.avg.rate"], "Found a duplicate in the metrics slice: splunk.indexer.avg.rate")
+					validatedMetrics["splunk.indexer.avg.rate"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking the average indexer index queue ration (%). *Note:** Search is best run against a Cluster Manager.", ms.At(i).Description())
-					assert.Equal(t, "{%}", ms.At(i).Unit())
+					assert.Equal(t, "Gauge tracking the average rate of indexed data. **Note:** Search is best run against a Cluster Manager.", ms.At(i).Description())
+					assert.Equal(t, "KBy", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
 					assert.Equal(t, ts, dp.Timestamp())
@@ -382,6 +352,21 @@ func TestMetricsBuilder(t *testing.T) {
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
 					assert.Equal(t, "Gauge tracking the number of indexing process cpu seconds per instance", ms.At(i).Description())
 					assert.Equal(t, "{s}", ms.At(i).Unit())
+					dp := ms.At(i).Gauge().DataPoints().At(0)
+					assert.Equal(t, start, dp.StartTimestamp())
+					assert.Equal(t, ts, dp.Timestamp())
+					assert.Equal(t, pmetric.NumberDataPointValueTypeDouble, dp.ValueType())
+					assert.Equal(t, float64(1), dp.DoubleValue())
+					attrVal, ok := dp.Attributes().Get("splunk.host")
+					assert.True(t, ok)
+					assert.EqualValues(t, "splunk.host-val", attrVal.Str())
+				case "splunk.indexer.queue.ratio":
+					assert.False(t, validatedMetrics["splunk.indexer.queue.ratio"], "Found a duplicate in the metrics slice: splunk.indexer.queue.ratio")
+					validatedMetrics["splunk.indexer.queue.ratio"] = true
+					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
+					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
+					assert.Equal(t, "Gauge tracking the average indexer index queue ration (%). *Note:** Search is best run against a Cluster Manager.", ms.At(i).Description())
+					assert.Equal(t, "{%}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
 					assert.Equal(t, ts, dp.Timestamp())
@@ -561,6 +546,21 @@ func TestMetricsBuilder(t *testing.T) {
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
 					assert.Equal(t, "Gauge tracking the average runtime of scheduled searches", ms.At(i).Description())
+					assert.Equal(t, "{ms}", ms.At(i).Unit())
+					dp := ms.At(i).Gauge().DataPoints().At(0)
+					assert.Equal(t, start, dp.StartTimestamp())
+					assert.Equal(t, ts, dp.Timestamp())
+					assert.Equal(t, pmetric.NumberDataPointValueTypeDouble, dp.ValueType())
+					assert.Equal(t, float64(1), dp.DoubleValue())
+					attrVal, ok := dp.Attributes().Get("splunk.host")
+					assert.True(t, ok)
+					assert.EqualValues(t, "splunk.host-val", attrVal.Str())
+				case "splunk.scheduler.avg.execution.latency":
+					assert.False(t, validatedMetrics["splunk.scheduler.avg.execution.latency"], "Found a duplicate in the metrics slice: splunk.scheduler.avg.execution.latency")
+					validatedMetrics["splunk.scheduler.avg.execution.latency"] = true
+					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
+					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
+					assert.Equal(t, "Gauge tracking the average execution latency of scheduled searches", ms.At(i).Description())
 					assert.Equal(t, "{ms}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
