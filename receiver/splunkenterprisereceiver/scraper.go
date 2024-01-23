@@ -318,7 +318,7 @@ func (s *splunkScraper) scrapeIndexerPipelineQueues(ctx context.Context, now pco
 	var sr searchResponse
 	// Because we have to utilize network resources for each KPI we should check that each metrics
 	// is enabled before proceeding
-	if !s.conf.MetricsBuilderConfig.Metrics.RecordSplunkAggregationQueueRatioDataPoint.Enabled {
+	if !s.conf.MetricsBuilderConfig.Metrics.SplunkAggregationQueueRatio.Enabled {
 		return
 	}
 
@@ -370,6 +370,7 @@ func (s *splunkScraper) scrapeIndexerPipelineQueues(ctx context.Context, now pco
 		}
 
 		if sr.Return == 400 {
+			fmt.Println("SHIT 400")
 			break
 		}
 
@@ -377,6 +378,8 @@ func (s *splunkScraper) scrapeIndexerPipelineQueues(ctx context.Context, now pco
 			errs.Add(errMaxSearchWaitTimeExceeded)
 			return
 		}
+
+		fmt.Println(*sr.Jobid)
 	}
 	// Record the results
 	var host string
@@ -410,6 +413,7 @@ func (s *splunkScraper) scrapeIndexerPipelineQueues(ctx context.Context, now pco
 		case "pipeline_sets":
 			v, err := strconv.ParseInt(f.Value, 10, 64)
 			ps = v
+			fmt.Println(ps)
 			if err != nil {
 				errs.Add(err)
 				continue
@@ -434,57 +438,58 @@ func (s *splunkScraper) scrapeBucketsSearchableStatus(ctx context.Context, now p
 		return
 	}
 
+	
 	sr = searchResponse{
 		search: searchDict[`SplunkBucketsSearchableStatus`],
 	}
-
+	
 	var (
 		req *http.Request
 		res *http.Response
 		err error
 	)
-
+	
 	start := time.Now()
-
+	
 	for {
 		req, err = s.splunkClient.createRequest(ctx, &sr)
 		if err != nil {
 			errs.Add(err)
 			return
 		}
-
+		
 		res, err = s.splunkClient.makeRequest(req)
 		if err != nil {
 			errs.Add(err)
 			return
 		}
-
+		
 		// if its a 204 the body will be empty because we are still waiting on search results
 		err = unmarshallSearchReq(res, &sr)
 		if err != nil {
 			errs.Add(err)
 		}
-
+		
 		res.Body.Close()
-
+		
 		// if no errors and 200 returned scrape was successful, return. Note we must make sure that
 		// the 200 is coming after the first request which provides a jobId to retrieve results
 		if sr.Return == 200 && sr.Jobid != nil {
 			break
 		}
-
+		
 		if sr.Return == 200 {
 			break
 		}
-
+		
 		if sr.Return == 204 {
 			time.Sleep(2 * time.Second)
 		}
-
+		
 		if sr.Return == 400 {
 			break
 		}
-
+		
 		if time.Since(start) > s.conf.ScraperControllerSettings.Timeout {
 			errs.Add(errMaxSearchWaitTimeExceeded)
 			return
@@ -570,7 +575,6 @@ func (s *splunkScraper) scrapeIndexesBucketCountAdHoc(ctx context.Context, now p
 		}
 
 		if sr.Return == 400 {
-			fmt.Println(sr.search)
 			break
 		}
 
