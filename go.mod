@@ -4,6 +4,7 @@ go 1.21
 
 require (
 	github.com/open-telemetry/opentelemetry-collector-contrib/connector/countconnector v0.97.0
+	github.com/open-telemetry/opentelemetry-collector-contrib/connector/sumconnector v0.97.0
 	github.com/open-telemetry/opentelemetry-collector-contrib/connector/datadogconnector v0.97.0
 	github.com/open-telemetry/opentelemetry-collector-contrib/connector/exceptionsconnector v0.97.0
 	github.com/open-telemetry/opentelemetry-collector-contrib/connector/grafanacloudconnector v0.97.0
@@ -1145,6 +1146,7 @@ replace github.com/open-telemetry/opentelemetry-collector-contrib/internal/colle
 
 replace (
 	github.com/open-telemetry/opentelemetry-collector-contrib/connector/countconnector => ./connector/countconnector
+	github.com/open-telemetry/opentelemetry-collector-contrib/connector/sumconnector => ./connector/sumconnector
 	github.com/open-telemetry/opentelemetry-collector-contrib/connector/datadogconnector => ./connector/datadogconnector
 	github.com/open-telemetry/opentelemetry-collector-contrib/connector/exceptionsconnector => ./connector/exceptionsconnector
 	github.com/open-telemetry/opentelemetry-collector-contrib/connector/grafanacloudconnector => ./connector/grafanacloudconnector
