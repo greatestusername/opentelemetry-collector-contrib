@@ -9,8 +9,8 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"time"
 	"strconv"
+	"time"
 
 	"go.opentelemetry.io/collector/pdata/pcommon"
 	"go.opentelemetry.io/collector/pdata/pmetric"
@@ -36,23 +36,23 @@ type counter[K any] struct {
 
 type attrCounter struct {
 	attrs pcommon.Map
-	count uint64
+	count float64
 }
 
 func (c *counter[K]) update(ctx context.Context, attrs pcommon.Map, tCtx K) error {
 	var multiError error
-	logger := log.New(os.Stdout, "", log.LstdFlags)
 	for name, md := range c.metricDefs {
 		countAttrs := pcommon.NewMap()
 		for _, attr := range md.attrs {
 			if attrVal, ok := attrs.Get(attr.Key); ok {
-				logger.Println("************#@#########*********")
-				logger.Println(attrVal)
-				logger.Println(attrVal.Int())
-				logger.Println(attrVal.Double())
-				logger.Println(attrVal.Str())
-				countAttrs.PutStr(attr.Key, fmt.Sprintf("%v", attrVal.Double()))
-				//countAttrs.PutStr(attr.Key, attrVal.Str())
+				switch {
+				case attrVal.Str() != "":
+					countAttrs.PutStr(attr.Key, attrVal.Str())
+				case attrVal.Double() != 0:
+					countAttrs.PutStr(attr.Key, fmt.Sprintf("%v", attrVal.Double()))
+				case attrVal.Int() != 0:
+					countAttrs.PutStr(attr.Key, fmt.Sprintf("%v", attrVal.Int()))
+				}
 			} else if attr.DefaultValue != "" {
 				countAttrs.PutStr(attr.Key, attr.DefaultValue)
 			}
@@ -65,22 +65,20 @@ func (c *counter[K]) update(ctx context.Context, attrs pcommon.Map, tCtx K) erro
 
 		// No conditions, so match all.
 		if md.condition == nil {
-			multiError = errors.Join(multiError, c.increment(name, countAttrs, 0))
+			multiError = errors.Join(multiError, c.increment(name, countAttrs))
 			continue
 		}
 
 		if match, err := md.condition.Eval(ctx, tCtx); err != nil {
 			multiError = errors.Join(multiError, err)
 		} else if match {
-			logger.Println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-			logger.Println(countAttrs.AsRaw()) // pull value out of this map
-			multiError = errors.Join(multiError, c.increment(name, countAttrs, 0))
+			multiError = errors.Join(multiError, c.increment(name, countAttrs))
 		}
 	}
 	return multiError
 }
 
-func (c *counter[K]) increment(metricName string, attrs pcommon.Map, values int) error {
+func (c *counter[K]) increment(metricName string, attrs pcommon.Map) error {
 	if _, ok := c.counts[metricName]; !ok {
 		c.counts[metricName] = make(map[[16]byte]*attrCounter)
 	}
@@ -93,29 +91,13 @@ func (c *counter[K]) increment(metricName string, attrs pcommon.Map, values int)
 	if _, ok := c.counts[metricName][key]; !ok {
 		c.counts[metricName][key] = &attrCounter{attrs: attrs}
 	}
-	logger := log.New(os.Stdout, "", log.LstdFlags)
-	logger.Println("@#@#@@#@#@#@#@@#@#@#@#@#@#@#@#@#@#@")
-	logger.Println(c)
-	logger.Println(c.metricDefs)
-	logger.Println(c.counts[metricName])
-	logger.Println(c.counts[metricName][key])
-	logger.Println(c.counts[metricName][key].attrs)
-	logger.Println(c.counts[metricName][key].attrs.AsRaw())
 
-	for strings, attr := range c.counts[metricName][key].attrs.AsRaw() {
-		logger.Println(strings)
-		logger.Println(attr)
+	for strings, _ := range c.counts[metricName][key].attrs.AsRaw() {
 		if attrVal, ok := c.counts[metricName][key].attrs.Get(strings); ok {
-			logger.Println("*&*&*&*&*&*#@#@#@#@#@#*&*&*&*&*&@#@#@#")
-			logger.Println(attrVal)
-			logger.Println(attrVal.Int())
-			logger.Println(attrVal.Double())
-			logger.Println(attrVal.Str())
-			val, _ := strconv.ParseUint(attrVal.Str(), 10, 64)
-			logger.Println(val)
+			val, _ := strconv.ParseFloat(attrVal.Str(), 64)
 			c.counts[metricName][key].count = c.counts[metricName][key].count + val
+		}
 	}
-}
 
 	return nil
 }
@@ -135,9 +117,7 @@ func (c *counter[K]) appendMetricsTo(metricSlice pmetric.MetricSlice) {
 		for _, dpCount := range c.counts[name] {
 			dp := sum.DataPoints().AppendEmpty()
 			dpCount.attrs.CopyTo(dp.Attributes())
-
-			//This is where we do the numbers
-			dp.SetIntValue(int64(dpCount.count))
+			dp.SetDoubleValue(float64(dpCount.count))
 			// TODO determine appropriate start time
 			dp.SetTimestamp(pcommon.NewTimestampFromTime(c.timestamp))
 		}
