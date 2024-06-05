@@ -8,6 +8,7 @@ require (
 	go.opentelemetry.io/collector/confmap v0.102.1
 	go.opentelemetry.io/collector/connector v0.102.1
 	go.opentelemetry.io/collector/consumer v0.102.1
+	go.uber.org/goleak v1.3.0
 )
 
 require (
