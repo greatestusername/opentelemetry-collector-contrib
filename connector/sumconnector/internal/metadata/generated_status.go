@@ -6,8 +6,11 @@ import (
 	"go.opentelemetry.io/collector/component"
 )
 
+var (
+	Type = component.MustNewType("sum")
+)
+
 const (
-	Type                      = "sum"
 	TracesToMetricsStability  = component.StabilityLevelDevelopment
 	MetricsToMetricsStability = component.StabilityLevelDevelopment
 	LogsToMetricsStability    = component.StabilityLevelDevelopment
