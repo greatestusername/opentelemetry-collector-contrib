@@ -76,7 +76,7 @@ func createTracesToMetrics(
 		spanEventMetricDefs[name] = md
 	}
 
-	return &count{
+	return &sum{
 		metricsConsumer:      nextConsumer,
 		spansMetricDefs:      spanMetricDefs,
 		spanEventsMetricDefs: spanEventMetricDefs,
@@ -119,7 +119,7 @@ func createMetricsToMetrics(
 		dataPointMetricDefs[name] = md
 	}
 
-	return &count{
+	return &sum{
 		metricsConsumer:      nextConsumer,
 		metricsMetricDefs:    metricMetricDefs,
 		dataPointsMetricDefs: dataPointMetricDefs,
@@ -149,7 +149,7 @@ func createLogsToMetrics(
 		metricDefs[name] = md
 	}
 
-	return &count{
+	return &sum{
 		metricsConsumer: nextConsumer,
 		logsMetricDefs:  metricDefs,
 	}, nil

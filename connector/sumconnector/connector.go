@@ -19,9 +19,9 @@ import (
 	"github.com/open-telemetry/opentelemetry-collector-contrib/pkg/ottl/contexts/ottlspanevent"
 )
 
-// count can count spans, span event, metrics, data points, or log records
-// and emit the counts onto a metrics pipeline.
-type count struct {
+// sum can sum attribute values from spans, span event, metrics, data points, or log records
+// and emit the sums onto a metrics pipeline.
+type sum struct {
 	metricsConsumer consumer.Metrics
 	component.StartFunc
 	component.ShutdownFunc
@@ -33,11 +33,11 @@ type count struct {
 	logsMetricDefs       map[string]metricDef[ottllog.TransformContext]
 }
 
-func (c *count) Capabilities() consumer.Capabilities {
+func (c *sum) Capabilities() consumer.Capabilities {
 	return consumer.Capabilities{MutatesData: false}
 }
 
-func (c *count) ConsumeTraces(ctx context.Context, td ptrace.Traces) error {
+func (c *sum) ConsumeTraces(ctx context.Context, td ptrace.Traces) error {
 
 	countMetrics := pmetric.NewMetrics()
 	countMetrics.ResourceMetrics().EnsureCapacity(td.ResourceSpans().Len())
@@ -45,7 +45,7 @@ func (c *count) ConsumeTraces(ctx context.Context, td ptrace.Traces) error {
 	return c.metricsConsumer.ConsumeMetrics(ctx, countMetrics)
 }
 
-func (c *count) ConsumeMetrics(ctx context.Context, md pmetric.Metrics) error {
+func (c *sum) ConsumeMetrics(ctx context.Context, md pmetric.Metrics) error {
 
 	countMetrics := pmetric.NewMetrics()
 	countMetrics.ResourceMetrics().EnsureCapacity(md.ResourceMetrics().Len())
@@ -53,7 +53,7 @@ func (c *count) ConsumeMetrics(ctx context.Context, md pmetric.Metrics) error {
 	return c.metricsConsumer.ConsumeMetrics(ctx, countMetrics)
 }
 
-func (c *count) ConsumeLogs(ctx context.Context, ld plog.Logs) error {
+func (c *sum) ConsumeLogs(ctx context.Context, ld plog.Logs) error {
 	countMetrics := pmetric.NewMetrics()
 	countMetrics.ResourceMetrics().EnsureCapacity(ld.ResourceLogs().Len())
 
