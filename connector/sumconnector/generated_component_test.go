@@ -29,12 +29,12 @@ func TestComponentLifecycle(t *testing.T) {
 
 	tests := []struct {
 		name     string
-		createFn func(ctx context.Context, set connector.CreateSettings, cfg component.Config) (component.Component, error)
+		createFn func(ctx context.Context, set connector.Settings, cfg component.Config) (component.Component, error)
 	}{
 
 		{
 			name: "logs_to_metrics",
-			createFn: func(ctx context.Context, set connector.CreateSettings, cfg component.Config) (component.Component, error) {
+			createFn: func(ctx context.Context, set connector.Settings, cfg component.Config) (component.Component, error) {
 				router := connector.NewMetricsRouter(map[component.ID]consumer.Metrics{component.NewID(component.DataTypeMetrics): consumertest.NewNop()})
 				return factory.CreateLogsToMetrics(ctx, set, cfg, router)
 			},
@@ -42,7 +42,7 @@ func TestComponentLifecycle(t *testing.T) {
 
 		{
 			name: "metrics_to_metrics",
-			createFn: func(ctx context.Context, set connector.CreateSettings, cfg component.Config) (component.Component, error) {
+			createFn: func(ctx context.Context, set connector.Settings, cfg component.Config) (component.Component, error) {
 				router := connector.NewMetricsRouter(map[component.ID]consumer.Metrics{component.NewID(component.DataTypeMetrics): consumertest.NewNop()})
 				return factory.CreateMetricsToMetrics(ctx, set, cfg, router)
 			},
@@ -50,7 +50,7 @@ func TestComponentLifecycle(t *testing.T) {
 
 		{
 			name: "traces_to_metrics",
-			createFn: func(ctx context.Context, set connector.CreateSettings, cfg component.Config) (component.Component, error) {
+			createFn: func(ctx context.Context, set connector.Settings, cfg component.Config) (component.Component, error) {
 				router := connector.NewMetricsRouter(map[component.ID]consumer.Metrics{component.NewID(component.DataTypeMetrics): consumertest.NewNop()})
 				return factory.CreateTracesToMetrics(ctx, set, cfg, router)
 			},

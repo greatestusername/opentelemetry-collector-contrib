@@ -3,9 +3,6 @@
 
 package sumconnector // import "github.com/open-telemetry/opentelemetry-collector-contrib/connector/sumconnector"
 
-import (
-)
-
 // Config for the connector
 type Config struct {
 	Spans      map[string]MetricInfo `mapstructure:"spans"`
