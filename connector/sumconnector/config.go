@@ -33,7 +33,7 @@ type MetricInfo struct {
 
 type AttributeConfig struct {
 	Key          string `mapstructure:"key"`
-	DefaultValue any    `mapstructure:"default_value"`
+	DefaultValue string `mapstructure:"default_value"`
 }
 
 func (c *Config) Validate() (combinedErrors error) {
