@@ -5,11 +5,8 @@ package sumconnector
 
 import (
 	"context"
-	"fmt"
 	"path/filepath"
-	"reflect"
 	"testing"
-	"unsafe"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -46,11 +43,51 @@ func TestTracesToMetrics(t *testing.T) {
 		cfg  *Config
 	}{
 		{
+			name: "zero_conditions",
+			cfg: &Config{
+				Spans: map[string]MetricInfo{
+					"trace.span.sum": {
+						Description:     "The sum of beep values observed in spans.",
+						SourceAttribute: "beep",
+					},
+				},
+				SpanEvents: map[string]MetricInfo{
+					"trace.span.event.sum": {
+						Description:     "The sum of beep values observed in span events.",
+						SourceAttribute: "beep",
+					},
+				},
+			},
+		},
+		{
+			name: "one_condition",
+			cfg: &Config{
+				Spans: map[string]MetricInfo{
+					"span.sum.if": {
+						Description:     "Span sum if ...",
+						SourceAttribute: "beep",
+						Conditions: []string{
+							`resource.attributes["resource.optional"] != nil`,
+						},
+					},
+				},
+				SpanEvents: map[string]MetricInfo{
+					"spanevent.sum.if": {
+						Description:     "Span event sum if ...",
+						SourceAttribute: "beep",
+						Conditions: []string{
+							`resource.attributes["resource.optional"] != nil`,
+						},
+					},
+				},
+			},
+		},
+		{
 			name: "one_attribute",
 			cfg: &Config{
 				Spans: map[string]MetricInfo{
 					"span.sum.by_attr": {
-						Description: "Span sum by attribute",
+						Description:     "Span sum by attribute",
 						SourceAttribute: "beep",
 						Attributes: []AttributeConfig{
 							{
@@ -61,8 +98,132 @@ func TestTracesToMetrics(t *testing.T) {
 				},
 				SpanEvents: map[string]MetricInfo{
 					"spanevent.sum.by_attr": {
-						Description: "Span event sum by attribute",
+						Description:     "Span event sum by attribute",
 						SourceAttribute: "beep",
+						Attributes: []AttributeConfig{
+							{
+								Key: "event.required",
+							},
+						},
+					},
+				},
+			},
+		},
+		{
+			name: "multiple_conditions",
+			cfg: &Config{
+				Spans: map[string]MetricInfo{
+					"span.sum.if": {
+						Description:     "Span sum if ...",
+						SourceAttribute: "beep",
+						Conditions: []string{
+							`resource.attributes["resource.optional"] != nil`,
+							`attributes["span.optional"] != nil`,
+						},
+					},
+				},
+				SpanEvents: map[string]MetricInfo{
+					"spanevent.sum.if": {
+						Description:     "Span event sum if ...",
+						SourceAttribute: "beep",
+						Conditions: []string{
+							`resource.attributes["resource.optional"] != nil`,
+							`attributes["event.optional"] != nil`,
+						},
+					},
+				},
+			},
+		},
+		{
+			name: "multiple_attributes",
+			cfg: &Config{
+				Spans: map[string]MetricInfo{
+					"span.sum.by_attr": {
+						Description:     "Span sum by attributes",
+						SourceAttribute: "beep",
+						Attributes: []AttributeConfig{
+							{
+								Key: "span.required",
+							},
+							{
+								Key: "span.optional",
+							},
+						},
+					},
+				},
+				SpanEvents: map[string]MetricInfo{
+					"spanevent.sum.by_attr": {
+						Description:     "Span event sum by attributes",
+						SourceAttribute: "beep",
+						Attributes: []AttributeConfig{
+							{
+								Key: "event.required",
+							},
+							{
+								Key: "event.optional",
+							},
+						},
+					},
+				},
+			},
+		},
+		{
+			name: "multiple_metrics",
+			cfg: &Config{
+				Spans: map[string]MetricInfo{
+					"span.sum.all": {
+						Description:     "All spans sum",
+						SourceAttribute: "beep",
+					},
+					"span.sum.if": {
+						Description:     "Span sum if ...",
+						SourceAttribute: "beep",
+						Conditions: []string{
+							`resource.attributes["resource.optional"] != nil`,
+							`attributes["span.optional"] != nil`,
+						},
+					},
+				},
+				SpanEvents: map[string]MetricInfo{
+					"spanevent.sum.all": {
+						Description:     "All span events sum",
+						SourceAttribute: "beep",
+					},
+					"spanevent.sum.if": {
+						Description:     "Span event sum if ...",
+						SourceAttribute: "beep",
+						Conditions: []string{
+							`resource.attributes["resource.optional"] != nil`,
+							`attributes["event.optional"] != nil`,
+						},
+					},
+				},
+			},
+		},
+		{
+			name: "condition_and_attribute",
+			cfg: &Config{
+				Spans: map[string]MetricInfo{
+					"span.sum.if.by_attr": {
+						Description:     "Span sum if ...",
+						SourceAttribute: "beep",
+						Conditions: []string{
+							`resource.attributes["resource.optional"] != nil`,
+						},
+						Attributes: []AttributeConfig{
+							{
+								Key: "span.required",
+							},
+						},
+					},
+				},
+				SpanEvents: map[string]MetricInfo{
+					"spanevent.sum.if.by_attr": {
+						Description:     "Span event sum by attribute if ...",
+						SourceAttribute: "beep",
+						Conditions: []string{
+							`resource.attributes["resource.optional"] != nil`,
+						},
 						Attributes: []AttributeConfig{
 							{
 								Key: "event.required",
@@ -99,10 +260,6 @@ func TestTracesToMetrics(t *testing.T) {
 
 			expected, err := golden.ReadMetrics(filepath.Join("testdata", "traces", tc.name+".yaml"))
 			assert.NoError(t, err)
-			fmt.Printf("expected (in bytes): %T, %d\n", expected, unsafe.Sizeof(expected))
-			fmt.Printf("type expected[0]: %T, %d\n", expected, reflect.TypeOf(expected))
-			fmt.Printf("allMetrics[0] (in bytes): %T, %d\n", allMetrics[0], unsafe.Sizeof(allMetrics[0]))
-			fmt.Printf("type allMetrics[0]: %T, %d\n", allMetrics[0], reflect.TypeOf(allMetrics[0]))
 			assert.NoError(t, pmetrictest.CompareMetrics(expected, allMetrics[0],
 				pmetrictest.IgnoreTimestamp(),
 				pmetrictest.IgnoreResourceMetricsOrder(),
@@ -138,7 +295,114 @@ func TestMetricsToMetrics(t *testing.T) {
 			cfg: &Config{
 				DataPoints: map[string]MetricInfo{
 					"datapoint.sum.by_attr": {
-						Description: "Data point sum by attribute",
+						Description:     "Data point sum by attribute",
+						SourceAttribute: "beep",
+						Attributes: []AttributeConfig{
+							{
+								Key: "datapoint.required",
+							},
+						},
+					},
+				},
+			},
+		},
+		{
+			name: "one_condition",
+			cfg: &Config{
+				DataPoints: map[string]MetricInfo{
+					"datapoint.sum.if": {
+						Description:     "Data point sum if ...",
+						SourceAttribute: "beep",
+						Conditions: []string{
+							`resource.attributes["resource.optional"] != nil`,
+						},
+					},
+				},
+			},
+		},
+		{
+			name: "multiple_conditions",
+			cfg: &Config{
+				DataPoints: map[string]MetricInfo{
+					"datapoint.sum.if": {
+						Description:     "Data point sum if ...",
+						SourceAttribute: "beep",
+						Conditions: []string{
+							`resource.attributes["resource.optional"] != nil`,
+							`attributes["datapoint.optional"] != nil`,
+						},
+					},
+				},
+			},
+		},
+		{
+			name: "multiple_metrics",
+			cfg: &Config{
+				DataPoints: map[string]MetricInfo{
+					"datapoint.sum.all": {
+						Description:     "All data points sum",
+						SourceAttribute: "beep",
+					},
+					"datapoint.sum.if": {
+						Description:     "Data point sum if ...",
+						SourceAttribute: "beep",
+						Conditions: []string{
+							`resource.attributes["resource.optional"] != nil`,
+							`attributes["datapoint.optional"] != nil`,
+						},
+					},
+				},
+			},
+		},
+		{
+			name: "multiple_attributes",
+			cfg: &Config{
+				DataPoints: map[string]MetricInfo{
+					"datapoint.sum.by_attr": {
+						Description:     "Data point sum by attributes",
+						SourceAttribute: "beep",
+						Attributes: []AttributeConfig{
+							{
+								Key: "datapoint.required",
+							},
+							{
+								Key: "datapoint.optional",
+							},
+						},
+					},
+				},
+			},
+		},
+		{
+			name: "default_attribute_value",
+			cfg: &Config{
+				DataPoints: map[string]MetricInfo{
+					"datapoint.sum.by_attr": {
+						Description:     "Data point sum by attribute with default",
+						SourceAttribute: "beep",
+						Attributes: []AttributeConfig{
+							{
+								Key: "datapoint.required",
+							},
+							{
+								Key:          "datapoint.optional",
+								DefaultValue: "other",
+							},
+						},
+					},
+				},
+			},
+		},
+		{
+			name: "condition_and_attribute",
+			cfg: &Config{
+				DataPoints: map[string]MetricInfo{
+					"datapoint.sum.if.by_attr": {
+						Description:     "Data point sum by attribute if ...",
+						SourceAttribute: "beep",
+						Conditions: []string{
+							`resource.attributes["resource.optional"] != nil`,
+						},
 						Attributes: []AttributeConfig{
 							{
 								Key: "datapoint.required",
@@ -207,7 +471,113 @@ func TestLogsToMetrics(t *testing.T) {
 			cfg: &Config{
 				Logs: map[string]MetricInfo{
 					"log.sum.by_attr": {
-						Description: "Log sum by attribute",
+						Description:     "Log sum by attribute",
+						SourceAttribute: "beep",
+						Attributes: []AttributeConfig{
+							{
+								Key: "log.required",
+							},
+						},
+					},
+				},
+			},
+		},
+		{
+			name: "one_condition",
+			cfg: &Config{
+				Logs: map[string]MetricInfo{
+					"sum.if": {
+						Description:     "Sum if ...",
+						SourceAttribute: "beep",
+						Conditions: []string{
+							`resource.attributes["resource.optional"] != nil`,
+						},
+					},
+				},
+			},
+		},
+		{
+			name: "multiple_conditions",
+			cfg: &Config{
+				Logs: map[string]MetricInfo{
+					"sum.if": {
+						Description:     "Sum if ...",
+						SourceAttribute: "beep",
+						Conditions: []string{
+							`resource.attributes["resource.optional"] != nil`,
+							`attributes["log.optional"] != nil`,
+						},
+					},
+				},
+			},
+		},
+		{
+			name: "multiple_metrics",
+			cfg: &Config{
+				Logs: map[string]MetricInfo{
+					"sum.all": {
+						Description:     "All logs Sum",
+						SourceAttribute: "beep",
+					},
+					"sum.if": {
+						Description:     "Sum if ...",
+						SourceAttribute: "beep",
+						Conditions: []string{
+							`resource.attributes["resource.optional"] != nil`,
+						},
+					},
+				},
+			},
+		},
+		{
+			name: "multiple_attributes",
+			cfg: &Config{
+				Logs: map[string]MetricInfo{
+					"log.sum.by_attr": {
+						Description:     "Log sum by attributes",
+						SourceAttribute: "beep",
+						Attributes: []AttributeConfig{
+							{
+								Key: "log.required",
+							},
+							{
+								Key: "log.optional",
+							},
+						},
+					},
+				},
+			},
+		},
+		{
+			name: "default_attribute_value",
+			cfg: &Config{
+				Logs: map[string]MetricInfo{
+					"log.sum.by_attr": {
+						Description:     "Log sum by attribute with default",
+						SourceAttribute: "beep",
+						Attributes: []AttributeConfig{
+							{
+								Key: "log.required",
+							},
+							{
+								Key:          "log.optional",
+								DefaultValue: "other",
+							},
+						},
+					},
+				},
+			},
+		},
+		{
+			name: "condition_and_attribute",
+			cfg: &Config{
+				Logs: map[string]MetricInfo{
+					"log.sum.if.by_attr": {
+						Description:     "Log sum by attribute if ...",
+						SourceAttribute: "beep",
+						Conditions: []string{
+							`resource.attributes["resource.optional"] != nil`,
+						},
 						Attributes: []AttributeConfig{
 							{
 								Key: "log.required",

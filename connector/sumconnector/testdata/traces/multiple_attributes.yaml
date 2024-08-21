@@ -9,45 +9,56 @@ resourceMetrics:
             stringValue: bar
     scopeMetrics:
       - metrics:
-          - description: Span sum by attribute
+          - description: Span sum by attributes
             name: span.sum.by_attr
             sum:
               aggregationTemporality: 1
               dataPoints:
-                - asDouble: "5.1"
+                - asDouble: "6"
                   attributes:
                     - key: span.required
                       value:
                         stringValue: foo
-                  timeUnixNano: "1678392127925459000"
-                - asDouble: "3.1"
+                    - key: span.optional
+                      value:
+                        stringValue: notbar
+                  timeUnixNano: "1678392127926637000"
+                - asDouble: "4.2"
                   attributes:
                     - key: span.required
                       value:
-                        stringValue: notfoo
-                  timeUnixNano: "1678392127925459000"
+                        stringValue: foo
+                    - key: span.optional
+                      value:
+                        stringValue: bar
+                  timeUnixNano: "1678392127926637000"
               isMonotonic: true
-          - description: Span event sum by attribute
+          - description: Span event sum by attributes
             name: spanevent.sum.by_attr
             sum:
               aggregationTemporality: 1
               dataPoints:
-                - asDouble: "15"
+                - asDouble: "14"
                   attributes:
                     - key: event.required
                       value:
                         stringValue: foo
-                  timeUnixNano: "1678392127925459000"
-                - asDouble: "8"
+                    - key: event.optional
+                      value:
+                        stringValue: bar
+                  timeUnixNano: "1678392127926637000"
+                - asDouble: "16"
                   attributes:
                     - key: event.required
                       value:
-                        stringValue: notfoo
-                  timeUnixNano: "1678392127925459000"
+                        stringValue: foo
+                    - key: event.optional
+                      value:
+                        stringValue: notbar
+                  timeUnixNano: "1678392127926637000"
               isMonotonic: true
         scope:
           name: otelcol/sumconnector
-  
   - resource:
       attributes:
         - key: resource.required
@@ -58,45 +69,56 @@ resourceMetrics:
             stringValue: notbar
     scopeMetrics:
       - metrics:
-          - description: Span sum by attribute
+          - description: Span sum by attributes
             name: span.sum.by_attr
             sum:
               aggregationTemporality: 1
               dataPoints:
-                - asDouble: "5.1"
+                - asDouble: "4.2"
                   attributes:
                     - key: span.required
                       value:
                         stringValue: foo
-                  timeUnixNano: "1678392127925459000"
-                - asDouble: "3.1"
+                    - key: span.optional
+                      value:
+                        stringValue: bar
+                  timeUnixNano: "1678392127926647000"
+                - asDouble: "6"
                   attributes:
                     - key: span.required
                       value:
-                        stringValue: notfoo
-                  timeUnixNano: "1678392127925459000"
+                        stringValue: foo
+                    - key: span.optional
+                      value:
+                        stringValue: notbar
+                  timeUnixNano: "1678392127926647000"
               isMonotonic: true
-          - description: Span event sum by attribute
+          - description: Span event sum by attributes
             name: spanevent.sum.by_attr
             sum:
               aggregationTemporality: 1
               dataPoints:
-                - asDouble: "15"
+                - asDouble: "14"
                   attributes:
                     - key: event.required
                       value:
                         stringValue: foo
-                  timeUnixNano: "1678392127925459000"
-                - asDouble: "8"
+                    - key: event.optional
+                      value:
+                        stringValue: bar
+                  timeUnixNano: "1678392127926647000"
+                - asDouble: "16"
                   attributes:
                     - key: event.required
                       value:
-                        stringValue: notfoo
-                  timeUnixNano: "1678392127925459000"
+                        stringValue: foo
+                    - key: event.optional
+                      value:
+                        stringValue: notbar
+                  timeUnixNano: "1678392127926647000"
               isMonotonic: true
         scope:
           name: otelcol/sumconnector
-
   - resource:
       attributes:
         - key: resource.required
@@ -104,83 +126,106 @@ resourceMetrics:
             stringValue: notfoo
     scopeMetrics:
       - metrics:
-          - description: Span sum by attribute
+          - description: Span sum by attributes
             name: span.sum.by_attr
             sum:
               aggregationTemporality: 1
               dataPoints:
-                - asDouble: "5.1"
+                - asDouble: "4.2"
                   attributes:
                     - key: span.required
                       value:
                         stringValue: foo
-                  timeUnixNano: "1678392127925459000"
-                - asDouble: "3.1"
+                    - key: span.optional
+                      value:
+                        stringValue: bar
+                  timeUnixNano: "1678392127926654000"
+                - asDouble: "6"
                   attributes:
                     - key: span.required
                       value:
-                        stringValue: notfoo
-                  timeUnixNano: "1678392127925459000"
+                        stringValue: foo
+                    - key: span.optional
+                      value:
+                        stringValue: notbar
+                  timeUnixNano: "1678392127926654000"
               isMonotonic: true
-          - description: Span event sum by attribute
+          - description: Span event sum by attributes
             name: spanevent.sum.by_attr
             sum:
               aggregationTemporality: 1
               dataPoints:
-                - asDouble: "15"
+                - asDouble: "14"
                   attributes:
                     - key: event.required
                       value:
                         stringValue: foo
-                  timeUnixNano: "1678392127925459000"
-                - asDouble: "8"
+                    - key: event.optional
+                      value:
+                        stringValue: bar
+                  timeUnixNano: "1678392127926654000"
+                - asDouble: "16"
                   attributes:
                     - key: event.required
                       value:
-                        stringValue: notfoo
-                  timeUnixNano: "1678392127925459000"
+                        stringValue: foo
+                    - key: event.optional
+                      value:
+                        stringValue: notbar
+                  timeUnixNano: "1678392127926654000"
               isMonotonic: true
         scope:
           name: otelcol/sumconnector
-
   - resource: {}
     scopeMetrics:
       - metrics:
-          - description: Span sum by attribute
+          - description: Span sum by attributes
             name: span.sum.by_attr
             sum:
               aggregationTemporality: 1
               dataPoints:
-                - asDouble: "5.1"
+                - asDouble: "4.2"
                   attributes:
                     - key: span.required
                       value:
                         stringValue: foo
-                  timeUnixNano: "1678392127925459000"
-                - asDouble: "3.1"
+                    - key: span.optional
+                      value:
+                        stringValue: bar
+                  timeUnixNano: "1678392127926661000"
+                - asDouble: "6"
                   attributes:
                     - key: span.required
                       value:
-                        stringValue: notfoo
-                  timeUnixNano: "1678392127925459000"
+                        stringValue: foo
+                    - key: span.optional
+                      value:
+                        stringValue: notbar
+                  timeUnixNano: "1678392127926661000"
               isMonotonic: true
-          - description: Span event sum by attribute
+          - description: Span event sum by attributes
             name: spanevent.sum.by_attr
             sum:
               aggregationTemporality: 1
               dataPoints:
-                - asDouble: "15"
+                - asDouble: "14"
                   attributes:
                     - key: event.required
                       value:
                         stringValue: foo
-                  timeUnixNano: "1678392127925459000"
-                - asDouble: "8"
+                    - key: event.optional
+                      value:
+                        stringValue: bar
+                  timeUnixNano: "1678392127926661000"
+                - asDouble: "16"
                   attributes:
                     - key: event.required
                       value:
-                        stringValue: notfoo
-                  timeUnixNano: "1678392127925459000"
+                        stringValue: foo
+                    - key: event.optional
+                      value:
+                        stringValue: notbar
+                  timeUnixNano: "1678392127926661000"
               isMonotonic: true
         scope:
           name: otelcol/sumconnector
