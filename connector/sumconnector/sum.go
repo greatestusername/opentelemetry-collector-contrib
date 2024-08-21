@@ -7,6 +7,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"math"
 	"strconv"
 	"time"
 
@@ -17,6 +18,10 @@ import (
 )
 
 var noAttributes = [16]byte{}
+
+func roundFloat(val float64) float64 {
+	return math.Round(val*100000) / 100000
+}
 
 func newSummer[K any](metricDefs map[string]metricDef[K]) *summer[K] {
 	return &summer[K]{
@@ -42,9 +47,23 @@ func (c *summer[K]) update(ctx context.Context, attrs pcommon.Map, tCtx K) error
 	for name, md := range c.metricDefs {
 		sourceAttribute := md.sourceAttr
 		sumAttrs := pcommon.NewMap()
+		var sumVal float64
+
+		// Get source attribute value
+		if sourceAttrVal, ok := attrs.Get(sourceAttribute); ok {
+			switch {
+			case sourceAttrVal.Str() != "":
+				sumVal, _ = strconv.ParseFloat(sourceAttrVal.Str(), 64)
+			case sourceAttrVal.Double() != 0:
+				sumVal = sourceAttrVal.Double()
+			case sourceAttrVal.Int() != 0:
+				sumVal = float64(sourceAttrVal.Int())
+			}
+		}
+
+		// Get attribute values to include otherwise include default value
 		for _, attr := range md.attrs {
 			if attrVal, ok := attrs.Get(attr.Key); ok {
-				fmt.Println("FIRST!!! attrVal is: " + attrVal.AsString())
 				switch {
 				case attrVal.Str() != "":
 					sumAttrs.PutStr(attr.Key, attrVal.Str())
@@ -53,35 +72,45 @@ func (c *summer[K]) update(ctx context.Context, attrs pcommon.Map, tCtx K) error
 				case attrVal.Int() != 0:
 					sumAttrs.PutStr(attr.Key, fmt.Sprintf("%v", attrVal.Int()))
 				}
+			} else if attr.DefaultValue != nil {
+				switch v := attr.DefaultValue.(type) {
+				case string:
+					if v != "" {
+						sumAttrs.PutStr(attr.Key, v)
+					}
+				case int:
+					if v != 0 {
+						sumAttrs.PutInt(attr.Key, int64(v))
+					}
+				case float64:
+					if v != 0 {
+						sumAttrs.PutDouble(attr.Key, float64(v))
+					}
 				}
 			}
-			
-			// Missing necessary attributes
-			if sumAttrs.Len() != len(md.attrs) {
-				continue
-			}
-			
-			if sourceAttrVal, ok := attrs.Get(sourceAttribute); ok {
-				sumAttrs.PutStr(sourceAttribute, sourceAttrVal.AsString())
-				fmt.Println("Added sourceAttribute!!!!!")
-			}
+		}
 
-		// No conditions, so match all.
+		// Missing necessary attributes
+		if sumAttrs.Len() != len(md.attrs) {
+			continue
+		}
+
+		// Perform condition matching or not
 		if md.condition == nil {
-			multiError = errors.Join(multiError, c.increment(name, sourceAttribute, sumAttrs))
+			multiError = errors.Join(multiError, c.increment(name, sumVal, sumAttrs))
 			continue
 		}
 
 		if match, err := md.condition.Eval(ctx, tCtx); err != nil {
 			multiError = errors.Join(multiError, err)
 		} else if match {
-			multiError = errors.Join(multiError, c.increment(name, sourceAttribute, sumAttrs))
+			multiError = errors.Join(multiError, c.increment(name, sumVal, sumAttrs))
 		}
 	}
 	return multiError
 }
 
-func (c *summer[K]) increment(metricName string, sourceAttribute string, attrs pcommon.Map) error {
+func (c *summer[K]) increment(metricName string, sumVal float64, attrs pcommon.Map) error {
 	if _, ok := c.sums[metricName]; !ok {
 		c.sums[metricName] = make(map[[16]byte]*attrSummer)
 	}
@@ -90,22 +119,19 @@ func (c *summer[K]) increment(metricName string, sourceAttribute string, attrs p
 	if attrs.Len() > 0 {
 		key = pdatautil.MapHash(attrs)
 	}
-	
+
 	if _, ok := c.sums[metricName][key]; !ok {
 		c.sums[metricName][key] = &attrSummer{attrs: attrs}
 	}
-	
-	for i := range c.sums[metricName][key].attrs.AsRaw() {
-		fmt.Println("Value of i is: " + i)
-		if i == sourceAttribute {
-			if attrVal, ok := c.sums[metricName][key].attrs.Get(sourceAttribute); ok {
-				fmt.Println("Value of attrVal is: " + attrVal.AsString())
-				val, _ := strconv.ParseFloat(attrVal.Str(), 64)
-				fmt.Println(val)
-				c.sums[metricName][key].sum += val
-				fmt.Println(c.sums[metricName][key].sum)
-			}
+
+	for strings := range c.sums[metricName][key].attrs.AsRaw() {
+		if _, ok := c.sums[metricName][key].attrs.Get(strings); ok {
+			c.sums[metricName][key].sum += sumVal
 		}
+	}
+
+	if attrs.Len() == 0 {
+		c.sums[metricName][key].sum += sumVal
 	}
 
 	return nil
@@ -123,16 +149,11 @@ func (c *summer[K]) appendMetricsTo(metricSlice pmetric.MetricSlice) {
 		// The delta value is always positive, so a value accumulated downstream is monotonic
 		sum.SetIsMonotonic(true)
 		sum.SetAggregationTemporality(pmetric.AggregationTemporalityDelta)
-		i := 0
-		for _, dpCount := range c.sums[name] {
+		for _, dpSum := range c.sums[name] {
 			dp := sum.DataPoints().AppendEmpty()
-			dpCount.attrs.CopyTo(dp.Attributes())
-			fmt.Println(dpCount.attrs.AsRaw())
-			dp.SetDoubleValue(float64(dpCount.sum))
-			// TODO determine appropriate start time
+			dpSum.attrs.CopyTo(dp.Attributes())
+			dp.SetDoubleValue(roundFloat(dpSum.sum))
 			dp.SetTimestamp(pcommon.NewTimestampFromTime(c.timestamp))
-			i += 1
-			fmt.Println(i)
 		}
 	}
 }
