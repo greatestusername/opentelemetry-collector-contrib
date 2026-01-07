@@ -24,8 +24,16 @@ const (
 var (
 	errCtxMissingEndpointType = errors.New("context was passed without the endpoint type included")
 	errEndpointTypeNotFound   = errors.New("requested client is not configured and could not be found in splunkEntClient")
-	errNoClientFound          = errors.New("no client corresponding to the endpoint type was found")
 )
+
+func (c *splunkEntClient) newClientNotFoundError(eptType, apiEndpoint string) error {
+    availableTypes := make([]string, 0, len(c.clients))
+    for k := range c.clients {
+        availableTypes = append(availableTypes, k)
+    }
+    return fmt.Errorf("no client found for instance type '%s' when accessing '%s'. Instance types able to scrape this endpoint type: [%s]", 
+		strings.Join(availableTypes, ", "), apiEndpoint, eptType)
+}
 
 // Type wrapper for accessing context value
 type endpointType string
@@ -107,7 +115,7 @@ func (c *splunkEntClient) createRequest(eptType string, sr *searchResponse) (req
 				return nil, err
 			}
 		} else {
-			return nil, errNoClientFound
+			return nil, c.newClientNotFoundError(eptType, fmt.Sprintf("search response: %+v", sr))
 		}
 
 		// reader for the response data
@@ -147,7 +155,7 @@ func (c *splunkEntClient) createAPIRequest(eptType, apiEndpoint string) (req *ht
 	if e, ok := c.clients[eptType]; ok {
 		u = e.endpoint.String() + apiEndpoint
 	} else {
-		return nil, errNoClientFound
+		return nil, c.newClientNotFoundError(eptType, apiEndpoint)
 	}
 
 	req, err = http.NewRequestWithContext(ctx, http.MethodGet, u, http.NoBody)
