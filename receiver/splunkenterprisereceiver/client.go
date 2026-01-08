@@ -26,22 +26,22 @@ var (
 	errEndpointTypeNotFound   = errors.New("requested client is not configured and could not be found in splunkEntClient")
 )
 
+// Wrapper around splunkClientMap to avoid awkward reference/dereference stuff that arises when using maps in golang
+type splunkEntClient struct {
+	clients splunkClientMap
+}
+
 func (c *splunkEntClient) newClientNotFoundError(eptType, apiEndpoint string) error {
-    availableTypes := make([]string, 0, len(c.clients))
-    for k := range c.clients {
-        availableTypes = append(availableTypes, k)
-    }
-    return fmt.Errorf("no client found for instance type '%s' when accessing '%s'. Instance types able to scrape this endpoint type: [%s]", 
+	availableTypes := make([]string, 0, len(c.clients))
+	for k := range c.clients {
+		availableTypes = append(availableTypes, k)
+	}
+	return fmt.Errorf("no client found for instance type '%s' when accessing '%s'. Instance types able to scrape this endpoint type: [%s]",
 		strings.Join(availableTypes, ", "), apiEndpoint, eptType)
 }
 
 // Type wrapper for accessing context value
 type endpointType string
-
-// Wrapper around splunkClientMap to avoid awkward reference/dereference stuff that arises when using maps in golang
-type splunkEntClient struct {
-	clients splunkClientMap
-}
 
 // The splunkEntClient is made up of a number of splunkClients defined for each configured endpoint
 type splunkClientMap map[string]splunkClient

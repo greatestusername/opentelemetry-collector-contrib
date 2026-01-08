@@ -234,7 +234,7 @@ type metricSplunkAggregationQueueRatio struct {
 // init fills splunk.aggregation.queue.ratio metric with initial data.
 func (m *metricSplunkAggregationQueueRatio) init() {
 	m.data.SetName("splunk.aggregation.queue.ratio")
-	m.data.SetDescription("Gauge tracking the average indexer aggregation queue ration (%). *Note:** Search is best run against a Cluster Manager.")
+	m.data.SetDescription("Gauge tracking the average indexer aggregation queue ratio (%). Scraped by: Cluster Manager.")
 	m.data.SetUnit("{%}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -287,7 +287,7 @@ type metricSplunkBucketsSearchableStatus struct {
 // init fills splunk.buckets.searchable.status metric with initial data.
 func (m *metricSplunkBucketsSearchableStatus) init() {
 	m.data.SetName("splunk.buckets.searchable.status")
-	m.data.SetDescription("Gauge tracking the number of buckets and their searchable status. *Note:** Search is best run against a Cluster Manager.")
+	m.data.SetDescription("Gauge tracking the number of buckets and their searchable status. Scraped by: Cluster Manager.")
 	m.data.SetUnit("{count}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -341,7 +341,7 @@ type metricSplunkDataIndexesExtendedBucketCount struct {
 // init fills splunk.data.indexes.extended.bucket.count metric with initial data.
 func (m *metricSplunkDataIndexesExtendedBucketCount) init() {
 	m.data.SetName("splunk.data.indexes.extended.bucket.count")
-	m.data.SetDescription("Count of buckets per index")
+	m.data.SetDescription("Count of buckets per index. *Note:** Must be pointed at specific indexer `endpoint`. Scraped by: Indexer.")
 	m.data.SetUnit("{buckets}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -394,7 +394,7 @@ type metricSplunkDataIndexesExtendedBucketEventCount struct {
 // init fills splunk.data.indexes.extended.bucket.event.count metric with initial data.
 func (m *metricSplunkDataIndexesExtendedBucketEventCount) init() {
 	m.data.SetName("splunk.data.indexes.extended.bucket.event.count")
-	m.data.SetDescription("Count of events in this bucket super-directory. *Note:** Must be pointed at specific indexer `endpoint`.")
+	m.data.SetDescription("Count of events in this bucket super-directory. *Note:** Must be pointed at specific indexer `endpoint`. Scraped by: Indexer.")
 	m.data.SetUnit("{events}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -448,7 +448,7 @@ type metricSplunkDataIndexesExtendedBucketHotCount struct {
 // init fills splunk.data.indexes.extended.bucket.hot.count metric with initial data.
 func (m *metricSplunkDataIndexesExtendedBucketHotCount) init() {
 	m.data.SetName("splunk.data.indexes.extended.bucket.hot.count")
-	m.data.SetDescription("(If size > 0) Number of hot buckets. *Note:** Must be pointed at specific indexer `endpoint`.")
+	m.data.SetDescription("(If size > 0) Number of hot buckets. *Note:** Must be pointed at specific indexer `endpoint`. Scraped by: Indexer.")
 	m.data.SetUnit("{buckets}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -502,7 +502,7 @@ type metricSplunkDataIndexesExtendedBucketWarmCount struct {
 // init fills splunk.data.indexes.extended.bucket.warm.count metric with initial data.
 func (m *metricSplunkDataIndexesExtendedBucketWarmCount) init() {
 	m.data.SetName("splunk.data.indexes.extended.bucket.warm.count")
-	m.data.SetDescription("(If size > 0) Number of warm buckets. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer.")
+	m.data.SetDescription("(If size > 0) Number of warm buckets. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer. Scraped by: Indexer.")
 	m.data.SetUnit("{buckets}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -556,7 +556,7 @@ type metricSplunkDataIndexesExtendedEventCount struct {
 // init fills splunk.data.indexes.extended.event.count metric with initial data.
 func (m *metricSplunkDataIndexesExtendedEventCount) init() {
 	m.data.SetName("splunk.data.indexes.extended.event.count")
-	m.data.SetDescription("Count of events for index, excluding frozen events. Approximately equal to the event_count sum of all buckets. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer.")
+	m.data.SetDescription("Count of events for index, excluding frozen events. Approximately equal to the event_count sum of all buckets. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer. Scraped by: Indexer.")
 	m.data.SetUnit("{events}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -609,7 +609,7 @@ type metricSplunkDataIndexesExtendedRawSize struct {
 // init fills splunk.data.indexes.extended.raw.size metric with initial data.
 func (m *metricSplunkDataIndexesExtendedRawSize) init() {
 	m.data.SetName("splunk.data.indexes.extended.raw.size")
-	m.data.SetDescription("Size in bytes on disk of the <bucket>/rawdata/ directories of all buckets in this index, excluding frozen *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer.")
+	m.data.SetDescription("Size in bytes on disk of the <bucket>/rawdata/ directories of all buckets in this index, excluding frozen. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer. Scraped by: Indexer.")
 	m.data.SetUnit("By")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -662,7 +662,7 @@ type metricSplunkDataIndexesExtendedTotalSize struct {
 // init fills splunk.data.indexes.extended.total.size metric with initial data.
 func (m *metricSplunkDataIndexesExtendedTotalSize) init() {
 	m.data.SetName("splunk.data.indexes.extended.total.size")
-	m.data.SetDescription("Size in bytes on disk of this index *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer.")
+	m.data.SetDescription("Size in bytes on disk of this index. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer. Scraped by: Indexer.")
 	m.data.SetUnit("By")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -715,7 +715,7 @@ type metricSplunkHealth struct {
 // init fills splunk.health metric with initial data.
 func (m *metricSplunkHealth) init() {
 	m.data.SetName("splunk.health")
-	m.data.SetDescription("The status ('red', 'yellow', or 'green') of the Splunk server. Health of 'red' produces a 0 while all other colors produce a 1.")
+	m.data.SetDescription("The status ('red', 'yellow', or 'green') of the Splunk server. Health of 'red' produces a 0 while all other colors produce a 1. Scraped by: Cluster Manager.")
 	m.data.SetUnit("{status}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -769,7 +769,7 @@ type metricSplunkIndexerAvgRate struct {
 // init fills splunk.indexer.avg.rate metric with initial data.
 func (m *metricSplunkIndexerAvgRate) init() {
 	m.data.SetName("splunk.indexer.avg.rate")
-	m.data.SetDescription("Gauge tracking the average rate of indexed data. **Note:** Search is best run against a Cluster Manager.")
+	m.data.SetDescription("Gauge tracking the average rate of indexed data. Scraped by: Cluster Manager.")
 	m.data.SetUnit("KBy")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -822,7 +822,7 @@ type metricSplunkIndexerCPUTime struct {
 // init fills splunk.indexer.cpu.time metric with initial data.
 func (m *metricSplunkIndexerCPUTime) init() {
 	m.data.SetName("splunk.indexer.cpu.time")
-	m.data.SetDescription("Gauge tracking the number of indexing process cpu seconds per instance")
+	m.data.SetDescription("Gauge tracking the number of indexing process cpu seconds per instance. Scraped by: Cluster Manager.")
 	m.data.SetUnit("{s}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -875,7 +875,7 @@ type metricSplunkIndexerQueueRatio struct {
 // init fills splunk.indexer.queue.ratio metric with initial data.
 func (m *metricSplunkIndexerQueueRatio) init() {
 	m.data.SetName("splunk.indexer.queue.ratio")
-	m.data.SetDescription("Gauge tracking the average indexer index queue ration (%). *Note:** Search is best run against a Cluster Manager.")
+	m.data.SetDescription("Gauge tracking the average indexer index queue ratio (%). Scraped by: Cluster Manager.")
 	m.data.SetUnit("{%}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -928,7 +928,7 @@ type metricSplunkIndexerRawWriteTime struct {
 // init fills splunk.indexer.raw.write.time metric with initial data.
 func (m *metricSplunkIndexerRawWriteTime) init() {
 	m.data.SetName("splunk.indexer.raw.write.time")
-	m.data.SetDescription("Gauge tracking the number of raw write seconds per instance")
+	m.data.SetDescription("Gauge tracking the number of raw write seconds per instance. Scraped by: Cluster Manager.")
 	m.data.SetUnit("{s}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -981,7 +981,7 @@ type metricSplunkIndexerRollingrestartStatus struct {
 // init fills splunk.indexer.rollingrestart.status metric with initial data.
 func (m *metricSplunkIndexerRollingrestartStatus) init() {
 	m.data.SetName("splunk.indexer.rollingrestart.status")
-	m.data.SetDescription("The status of a rolling restart.")
+	m.data.SetDescription("The status of a rolling restart. Scraped by: Cluster Manager.")
 	m.data.SetUnit("{status}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -1035,7 +1035,7 @@ type metricSplunkIndexerThroughput struct {
 // init fills splunk.indexer.throughput metric with initial data.
 func (m *metricSplunkIndexerThroughput) init() {
 	m.data.SetName("splunk.indexer.throughput")
-	m.data.SetDescription("Gauge tracking average bytes per second throughput of indexer. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer.")
+	m.data.SetDescription("Gauge tracking average bytes per second throughput of indexer. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer. Scraped by: Indexer.")
 	m.data.SetUnit("By/s")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -1088,7 +1088,7 @@ type metricSplunkIndexesAvgSize struct {
 // init fills splunk.indexes.avg.size metric with initial data.
 func (m *metricSplunkIndexesAvgSize) init() {
 	m.data.SetName("splunk.indexes.avg.size")
-	m.data.SetDescription("Gauge tracking the indexes and their average size (gb). *Note:** Search is best run against a Cluster Manager.")
+	m.data.SetDescription("Gauge tracking the indexes and their average size (gb). Scraped by: Cluster Manager.")
 	m.data.SetUnit("Gb")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -1141,7 +1141,7 @@ type metricSplunkIndexesAvgUsage struct {
 // init fills splunk.indexes.avg.usage metric with initial data.
 func (m *metricSplunkIndexesAvgUsage) init() {
 	m.data.SetName("splunk.indexes.avg.usage")
-	m.data.SetDescription("Gauge tracking the indexes and their average usage (%). *Note:** Search is best run against a Cluster Manager.")
+	m.data.SetDescription("Gauge tracking the indexes and their average usage (%). Scraped by: Cluster Manager.")
 	m.data.SetUnit("{%}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -1194,7 +1194,7 @@ type metricSplunkIndexesBucketCount struct {
 // init fills splunk.indexes.bucket.count metric with initial data.
 func (m *metricSplunkIndexesBucketCount) init() {
 	m.data.SetName("splunk.indexes.bucket.count")
-	m.data.SetDescription("Gauge tracking the indexes and their bucket counts. *Note:** Search is best run against a Cluster Manager.")
+	m.data.SetDescription("Gauge tracking the indexes and their bucket counts. Scraped by: Cluster Manager.")
 	m.data.SetUnit("{count}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -1247,7 +1247,7 @@ type metricSplunkIndexesMedianDataAge struct {
 // init fills splunk.indexes.median.data.age metric with initial data.
 func (m *metricSplunkIndexesMedianDataAge) init() {
 	m.data.SetName("splunk.indexes.median.data.age")
-	m.data.SetDescription("Gauge tracking the indexes and their median data age (days). *Note:** Search is best run against a Cluster Manager.")
+	m.data.SetDescription("Gauge tracking the indexes and their median data age (days). Scraped by: Cluster Manager.")
 	m.data.SetUnit("{days}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -1300,7 +1300,7 @@ type metricSplunkIndexesSize struct {
 // init fills splunk.indexes.size metric with initial data.
 func (m *metricSplunkIndexesSize) init() {
 	m.data.SetName("splunk.indexes.size")
-	m.data.SetDescription("Gauge tracking the indexes and their total size (gb). *Note:** Search is best run against a Cluster Manager.")
+	m.data.SetDescription("Gauge tracking the indexes and their total size (gb). Scraped by: Cluster Manager.")
 	m.data.SetUnit("Gb")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -1353,7 +1353,7 @@ type metricSplunkIoAvgIops struct {
 // init fills splunk.io.avg.iops metric with initial data.
 func (m *metricSplunkIoAvgIops) init() {
 	m.data.SetName("splunk.io.avg.iops")
-	m.data.SetDescription("Gauge tracking the average IOPs used per instance")
+	m.data.SetDescription("Gauge tracking the average IOPs used per instance. Scraped by: Monitoring Console.")
 	m.data.SetUnit("{iops}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -1406,7 +1406,7 @@ type metricSplunkKvstoreBackupStatus struct {
 // init fills splunk.kvstore.backup.status metric with initial data.
 func (m *metricSplunkKvstoreBackupStatus) init() {
 	m.data.SetName("splunk.kvstore.backup.status")
-	m.data.SetDescription("Backup and restore status of the KV store.")
+	m.data.SetDescription("Backup and restore status of the KV store. Scraped by: Cluster Manager.")
 	m.data.SetUnit("{status}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -1459,7 +1459,7 @@ type metricSplunkKvstoreReplicationStatus struct {
 // init fills splunk.kvstore.replication.status metric with initial data.
 func (m *metricSplunkKvstoreReplicationStatus) init() {
 	m.data.SetName("splunk.kvstore.replication.status")
-	m.data.SetDescription("Replication status of the KV store.")
+	m.data.SetDescription("Replication status of the KV store. Scraped by: Cluster Manager.")
 	m.data.SetUnit("{status}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -1512,7 +1512,7 @@ type metricSplunkKvstoreStatus struct {
 // init fills splunk.kvstore.status metric with initial data.
 func (m *metricSplunkKvstoreStatus) init() {
 	m.data.SetName("splunk.kvstore.status")
-	m.data.SetDescription("This is the overall status of the kvstore for the given deployment.")
+	m.data.SetDescription("This is the overall status of the kvstore for the given deployment. Scraped by: Cluster Manager.")
 	m.data.SetUnit("{status}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -1567,7 +1567,7 @@ type metricSplunkLicenseExpirationSecondsRemaining struct {
 // init fills splunk.license.expiration.seconds_remaining metric with initial data.
 func (m *metricSplunkLicenseExpirationSecondsRemaining) init() {
 	m.data.SetName("splunk.license.expiration.seconds_remaining")
-	m.data.SetDescription("Gauge tracking the seconds remaining on any given Splunk License found via Splunk API. **Note:** This will only work on a Cluster Manager.")
+	m.data.SetDescription("Gauge tracking the seconds remaining on any given Splunk License found via Splunk API. **Note:** This will only work on a Cluster Manager. Scraped by: Cluster Manager.")
 	m.data.SetUnit("{seconds}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -1622,7 +1622,7 @@ type metricSplunkLicenseIndexUsage struct {
 // init fills splunk.license.index.usage metric with initial data.
 func (m *metricSplunkLicenseIndexUsage) init() {
 	m.data.SetName("splunk.license.index.usage")
-	m.data.SetDescription("Gauge tracking the indexed license usage per index")
+	m.data.SetDescription("Gauge tracking the indexed license usage per index. Scraped by: Cluster Manager.")
 	m.data.SetUnit("By")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -1675,7 +1675,7 @@ type metricSplunkParseQueueRatio struct {
 // init fills splunk.parse.queue.ratio metric with initial data.
 func (m *metricSplunkParseQueueRatio) init() {
 	m.data.SetName("splunk.parse.queue.ratio")
-	m.data.SetDescription("Gauge tracking the average indexer parser queue ration (%). *Note:** Search is best run against a Cluster Manager.")
+	m.data.SetDescription("Gauge tracking the average indexer parser queue ratio (%). Scraped by: Cluster Manager.")
 	m.data.SetUnit("{%}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -1728,7 +1728,7 @@ type metricSplunkPipelineSetCount struct {
 // init fills splunk.pipeline.set.count metric with initial data.
 func (m *metricSplunkPipelineSetCount) init() {
 	m.data.SetName("splunk.pipeline.set.count")
-	m.data.SetDescription("Gauge tracking the number of pipeline sets per indexer. **Note:** Search is best run against a Cluster Manager.")
+	m.data.SetDescription("Gauge tracking the number of pipeline sets per indexer. Scraped by: Cluster Manager.")
 	m.data.SetUnit("KBy")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -1781,7 +1781,7 @@ type metricSplunkSchedulerAvgExecutionLatency struct {
 // init fills splunk.scheduler.avg.execution.latency metric with initial data.
 func (m *metricSplunkSchedulerAvgExecutionLatency) init() {
 	m.data.SetName("splunk.scheduler.avg.execution.latency")
-	m.data.SetDescription("Gauge tracking the average execution latency of scheduled searches")
+	m.data.SetDescription("Gauge tracking the average execution latency of scheduled searches. Scraped by: Cluster Manager.")
 	m.data.SetUnit("{ms}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -1834,7 +1834,7 @@ type metricSplunkSchedulerAvgRunTime struct {
 // init fills splunk.scheduler.avg.run.time metric with initial data.
 func (m *metricSplunkSchedulerAvgRunTime) init() {
 	m.data.SetName("splunk.scheduler.avg.run.time")
-	m.data.SetDescription("Gauge tracking the average runtime of scheduled searches")
+	m.data.SetDescription("Gauge tracking the average runtime of scheduled searches. Scraped by: Cluster Manager.")
 	m.data.SetUnit("{ms}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -1887,7 +1887,7 @@ type metricSplunkSchedulerCompletionRatio struct {
 // init fills splunk.scheduler.completion.ratio metric with initial data.
 func (m *metricSplunkSchedulerCompletionRatio) init() {
 	m.data.SetName("splunk.scheduler.completion.ratio")
-	m.data.SetDescription("Gauge tracking the ratio of completed to skipped scheduled searches")
+	m.data.SetDescription("Gauge tracking the ratio of completed to skipped scheduled searches. Scraped by: Cluster Manager.")
 	m.data.SetUnit("{%}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -1992,7 +1992,7 @@ type metricSplunkSearchInitiation struct {
 // init fills splunk.search.initiation metric with initial data.
 func (m *metricSplunkSearchInitiation) init() {
 	m.data.SetName("splunk.search.initiation")
-	m.data.SetDescription("Gauge tracking whether the last search probe successfully initiated a search.")
+	m.data.SetDescription("Gauge tracking whether the last search probe successfully initiated a search. Scraped by: Search Head.")
 	m.data.SetUnit("{status}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -2044,7 +2044,7 @@ type metricSplunkSearchStatus struct {
 // init fills splunk.search.status metric with initial data.
 func (m *metricSplunkSearchStatus) init() {
 	m.data.SetName("splunk.search.status")
-	m.data.SetDescription("Gauge tracking the dispatch status of the last search probe.")
+	m.data.SetDescription("Gauge tracking the dispatch status of the last search probe. Scraped by: Search Head.")
 	m.data.SetUnit("{status}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -2097,7 +2097,7 @@ type metricSplunkSearchSuccess struct {
 // init fills splunk.search.success metric with initial data.
 func (m *metricSplunkSearchSuccess) init() {
 	m.data.SetName("splunk.search.success")
-	m.data.SetDescription("Gauge tracking whether the last search probe call was successful with the dispatch state 'DONE'.")
+	m.data.SetDescription("Gauge tracking whether the last search probe call was successful with the dispatch state 'DONE'. Scraped by: Search Head.")
 	m.data.SetUnit("{status}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -2149,7 +2149,7 @@ type metricSplunkServerIntrospectionQueuesCurrent struct {
 // init fills splunk.server.introspection.queues.current metric with initial data.
 func (m *metricSplunkServerIntrospectionQueuesCurrent) init() {
 	m.data.SetName("splunk.server.introspection.queues.current")
-	m.data.SetDescription("Gauge tracking current length of queue. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer.")
+	m.data.SetDescription("Gauge tracking current length of queue. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer. Scraped by: Indexer.")
 	m.data.SetUnit("{queues}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -2202,7 +2202,7 @@ type metricSplunkServerIntrospectionQueuesCurrentBytes struct {
 // init fills splunk.server.introspection.queues.current.bytes metric with initial data.
 func (m *metricSplunkServerIntrospectionQueuesCurrentBytes) init() {
 	m.data.SetName("splunk.server.introspection.queues.current.bytes")
-	m.data.SetDescription("Gauge tracking current bytes waiting in queue. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer.")
+	m.data.SetDescription("Gauge tracking current bytes waiting in queue. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer. Scraped by: Indexer.")
 	m.data.SetUnit("By")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -2255,7 +2255,7 @@ type metricSplunkServerSearchartifactsAdhoc struct {
 // init fills splunk.server.searchartifacts.adhoc metric with initial data.
 func (m *metricSplunkServerSearchartifactsAdhoc) init() {
 	m.data.SetName("splunk.server.searchartifacts.adhoc")
-	m.data.SetDescription("Gauge tracking number of ad hoc search artifacts currently on disk. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.")
+	m.data.SetDescription("Gauge tracking number of ad hoc search artifacts currently on disk. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.")
 	m.data.SetUnit("{search_artifacts}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -2308,7 +2308,7 @@ type metricSplunkServerSearchartifactsAdhocSize struct {
 // init fills splunk.server.searchartifacts.adhoc.size metric with initial data.
 func (m *metricSplunkServerSearchartifactsAdhocSize) init() {
 	m.data.SetName("splunk.server.searchartifacts.adhoc.size")
-	m.data.SetDescription("Gauge total size (MB) of ad hoc search artifacts currently on disk. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.")
+	m.data.SetDescription("Gauge total size (MB) of ad hoc search artifacts currently on disk. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.")
 	m.data.SetUnit("{search_artifacts}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -2361,7 +2361,7 @@ type metricSplunkServerSearchartifactsCompleted struct {
 // init fills splunk.server.searchartifacts.completed metric with initial data.
 func (m *metricSplunkServerSearchartifactsCompleted) init() {
 	m.data.SetName("splunk.server.searchartifacts.completed")
-	m.data.SetDescription("Gauge tracking number of artifacts currently on disk that belong to finished searches. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.")
+	m.data.SetDescription("Gauge tracking number of artifacts currently on disk that belong to finished searches. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.")
 	m.data.SetUnit("{search_artifacts}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -2414,7 +2414,7 @@ type metricSplunkServerSearchartifactsCompletedSize struct {
 // init fills splunk.server.searchartifacts.completed.size metric with initial data.
 func (m *metricSplunkServerSearchartifactsCompletedSize) init() {
 	m.data.SetName("splunk.server.searchartifacts.completed.size")
-	m.data.SetDescription("Gauge total size (MB) of artifacts currently on disk that belong to finished searches. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.")
+	m.data.SetDescription("Gauge total size (MB) of artifacts currently on disk that belong to finished searches. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.")
 	m.data.SetUnit("{search_artifacts}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -2467,7 +2467,7 @@ type metricSplunkServerSearchartifactsIncomplete struct {
 // init fills splunk.server.searchartifacts.incomplete metric with initial data.
 func (m *metricSplunkServerSearchartifactsIncomplete) init() {
 	m.data.SetName("splunk.server.searchartifacts.incomplete")
-	m.data.SetDescription("Gauge tracking number of artifacts currently on disk that belong to unfinished/running searches. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.")
+	m.data.SetDescription("Gauge tracking number of artifacts currently on disk that belong to unfinished/running searches. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.")
 	m.data.SetUnit("{search_artifacts}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -2520,7 +2520,7 @@ type metricSplunkServerSearchartifactsIncompleteSize struct {
 // init fills splunk.server.searchartifacts.incomplete.size metric with initial data.
 func (m *metricSplunkServerSearchartifactsIncompleteSize) init() {
 	m.data.SetName("splunk.server.searchartifacts.incomplete.size")
-	m.data.SetDescription("Gauge total size (MB) of artifacts currently on disk that belong to unfinished/running searches. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.")
+	m.data.SetDescription("Gauge total size (MB) of artifacts currently on disk that belong to unfinished/running searches. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.")
 	m.data.SetUnit("{search_artifacts}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -2573,7 +2573,7 @@ type metricSplunkServerSearchartifactsInvalid struct {
 // init fills splunk.server.searchartifacts.invalid metric with initial data.
 func (m *metricSplunkServerSearchartifactsInvalid) init() {
 	m.data.SetName("splunk.server.searchartifacts.invalid")
-	m.data.SetDescription("Gauge tracking number of artifacts currently on disk that are not in a valid state, such as missing info.csv file, etc. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.")
+	m.data.SetDescription("Gauge tracking number of artifacts currently on disk that are not in a valid state, such as missing info.csv file, etc. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.")
 	m.data.SetUnit("{search_artifacts}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -2626,7 +2626,7 @@ type metricSplunkServerSearchartifactsJobCacheCount struct {
 // init fills splunk.server.searchartifacts.job.cache.count metric with initial data.
 func (m *metricSplunkServerSearchartifactsJobCacheCount) init() {
 	m.data.SetName("splunk.server.searchartifacts.job.cache.count")
-	m.data.SetDescription("Gauge tracking number search artifacts metadata stored in memory, available in builds 9.1.2312.207+ and 9.3.x+.")
+	m.data.SetDescription("Gauge tracking number search artifacts metadata stored in memory, available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.")
 	m.data.SetUnit("{search_artifacts}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -2679,7 +2679,7 @@ type metricSplunkServerSearchartifactsJobCacheSize struct {
 // init fills splunk.server.searchartifacts.job.cache.size metric with initial data.
 func (m *metricSplunkServerSearchartifactsJobCacheSize) init() {
 	m.data.SetName("splunk.server.searchartifacts.job.cache.size")
-	m.data.SetDescription("Gauge tracking, in megabytes, memory used to cache job status and job info of all search artifacts, available in builds 9.1.2312.207+ and 9.3.x+.")
+	m.data.SetDescription("Gauge tracking, in megabytes, memory used to cache job status and job info of all search artifacts, available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.")
 	m.data.SetUnit("{mb}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -2733,7 +2733,7 @@ type metricSplunkServerSearchartifactsSavedsearches struct {
 // init fills splunk.server.searchartifacts.savedsearches metric with initial data.
 func (m *metricSplunkServerSearchartifactsSavedsearches) init() {
 	m.data.SetName("splunk.server.searchartifacts.savedsearches")
-	m.data.SetDescription("Gauge tracking, for the `splunk.server.searchartifacts.scheduled` number of scheduled search artifacts, how many different saved-searches they belong to. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.")
+	m.data.SetDescription("Gauge tracking, for the `splunk.server.searchartifacts.scheduled` number of scheduled search artifacts, how many different saved-searches they belong to. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.")
 	m.data.SetUnit("{search_artifacts}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -2786,7 +2786,7 @@ type metricSplunkServerSearchartifactsScheduled struct {
 // init fills splunk.server.searchartifacts.scheduled metric with initial data.
 func (m *metricSplunkServerSearchartifactsScheduled) init() {
 	m.data.SetName("splunk.server.searchartifacts.scheduled")
-	m.data.SetDescription("Gauge tracking number of scheduled search artifacts currently on disk. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.")
+	m.data.SetDescription("Gauge tracking number of scheduled search artifacts currently on disk. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.")
 	m.data.SetUnit("{search_artifacts}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -2839,7 +2839,7 @@ type metricSplunkServerSearchartifactsScheduledSize struct {
 // init fills splunk.server.searchartifacts.scheduled.size metric with initial data.
 func (m *metricSplunkServerSearchartifactsScheduledSize) init() {
 	m.data.SetName("splunk.server.searchartifacts.scheduled.size")
-	m.data.SetDescription("Gauge total size (MB) of scheduled search artifacts currently on disk. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.")
+	m.data.SetDescription("Gauge total size (MB) of scheduled search artifacts currently on disk. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.")
 	m.data.SetUnit("{search_artifacts}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)
@@ -2892,7 +2892,7 @@ type metricSplunkTypingQueueRatio struct {
 // init fills splunk.typing.queue.ratio metric with initial data.
 func (m *metricSplunkTypingQueueRatio) init() {
 	m.data.SetName("splunk.typing.queue.ratio")
-	m.data.SetDescription("Gauge tracking the average indexer typing queue ration (%). *Note:** Search is best run against a Cluster Manager.")
+	m.data.SetDescription("Gauge tracking the average indexer typing queue ratio (%). Scraped by: Cluster Manager.")
 	m.data.SetUnit("{%}")
 	m.data.SetEmptyGauge()
 	m.data.Gauge().DataPoints().EnsureCapacity(m.capacity)

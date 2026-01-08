@@ -240,7 +240,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.aggregation.queue.ratio"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking the average indexer aggregation queue ration (%). *Note:** Search is best run against a Cluster Manager.", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking the average indexer aggregation queue ratio (%). Scraped by: Cluster Manager.", ms.At(i).Description())
 					assert.Equal(t, "{%}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -261,7 +261,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.buckets.searchable.status"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking the number of buckets and their searchable status. *Note:** Search is best run against a Cluster Manager.", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking the number of buckets and their searchable status. Scraped by: Cluster Manager.", ms.At(i).Description())
 					assert.Equal(t, "{count}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -285,7 +285,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.data.indexes.extended.bucket.count"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Count of buckets per index", ms.At(i).Description())
+					assert.Equal(t, "Count of buckets per index. *Note:** Must be pointed at specific indexer `endpoint`. Scraped by: Indexer.", ms.At(i).Description())
 					assert.Equal(t, "{buckets}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -306,7 +306,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.data.indexes.extended.bucket.event.count"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Count of events in this bucket super-directory. *Note:** Must be pointed at specific indexer `endpoint`.", ms.At(i).Description())
+					assert.Equal(t, "Count of events in this bucket super-directory. *Note:** Must be pointed at specific indexer `endpoint`. Scraped by: Indexer.", ms.At(i).Description())
 					assert.Equal(t, "{events}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -330,7 +330,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.data.indexes.extended.bucket.hot.count"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "(If size > 0) Number of hot buckets. *Note:** Must be pointed at specific indexer `endpoint`.", ms.At(i).Description())
+					assert.Equal(t, "(If size > 0) Number of hot buckets. *Note:** Must be pointed at specific indexer `endpoint`. Scraped by: Indexer.", ms.At(i).Description())
 					assert.Equal(t, "{buckets}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -354,7 +354,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.data.indexes.extended.bucket.warm.count"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "(If size > 0) Number of warm buckets. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer.", ms.At(i).Description())
+					assert.Equal(t, "(If size > 0) Number of warm buckets. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer. Scraped by: Indexer.", ms.At(i).Description())
 					assert.Equal(t, "{buckets}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -378,7 +378,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.data.indexes.extended.event.count"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Count of events for index, excluding frozen events. Approximately equal to the event_count sum of all buckets. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer.", ms.At(i).Description())
+					assert.Equal(t, "Count of events for index, excluding frozen events. Approximately equal to the event_count sum of all buckets. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer. Scraped by: Indexer.", ms.At(i).Description())
 					assert.Equal(t, "{events}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -399,7 +399,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.data.indexes.extended.raw.size"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Size in bytes on disk of the <bucket>/rawdata/ directories of all buckets in this index, excluding frozen *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer.", ms.At(i).Description())
+					assert.Equal(t, "Size in bytes on disk of the <bucket>/rawdata/ directories of all buckets in this index, excluding frozen. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer. Scraped by: Indexer.", ms.At(i).Description())
 					assert.Equal(t, "By", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -420,7 +420,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.data.indexes.extended.total.size"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Size in bytes on disk of this index *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer.", ms.At(i).Description())
+					assert.Equal(t, "Size in bytes on disk of this index. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer. Scraped by: Indexer.", ms.At(i).Description())
 					assert.Equal(t, "By", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -441,7 +441,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.health"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "The status ('red', 'yellow', or 'green') of the Splunk server. Health of 'red' produces a 0 while all other colors produce a 1.", ms.At(i).Description())
+					assert.Equal(t, "The status ('red', 'yellow', or 'green') of the Splunk server. Health of 'red' produces a 0 while all other colors produce a 1. Scraped by: Cluster Manager.", ms.At(i).Description())
 					assert.Equal(t, "{status}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -465,7 +465,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.indexer.avg.rate"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking the average rate of indexed data. **Note:** Search is best run against a Cluster Manager.", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking the average rate of indexed data. Scraped by: Cluster Manager.", ms.At(i).Description())
 					assert.Equal(t, "KBy", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -486,7 +486,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.indexer.cpu.time"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking the number of indexing process cpu seconds per instance", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking the number of indexing process cpu seconds per instance. Scraped by: Cluster Manager.", ms.At(i).Description())
 					assert.Equal(t, "{s}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -507,7 +507,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.indexer.queue.ratio"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking the average indexer index queue ration (%). *Note:** Search is best run against a Cluster Manager.", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking the average indexer index queue ratio (%). Scraped by: Cluster Manager.", ms.At(i).Description())
 					assert.Equal(t, "{%}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -528,7 +528,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.indexer.raw.write.time"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking the number of raw write seconds per instance", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking the number of raw write seconds per instance. Scraped by: Cluster Manager.", ms.At(i).Description())
 					assert.Equal(t, "{s}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -549,7 +549,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.indexer.rollingrestart.status"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "The status of a rolling restart.", ms.At(i).Description())
+					assert.Equal(t, "The status of a rolling restart. Scraped by: Cluster Manager.", ms.At(i).Description())
 					assert.Equal(t, "{status}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -573,7 +573,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.indexer.throughput"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking average bytes per second throughput of indexer. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer.", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking average bytes per second throughput of indexer. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer. Scraped by: Indexer.", ms.At(i).Description())
 					assert.Equal(t, "By/s", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -594,7 +594,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.indexes.avg.size"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking the indexes and their average size (gb). *Note:** Search is best run against a Cluster Manager.", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking the indexes and their average size (gb). Scraped by: Cluster Manager.", ms.At(i).Description())
 					assert.Equal(t, "Gb", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -615,7 +615,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.indexes.avg.usage"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking the indexes and their average usage (%). *Note:** Search is best run against a Cluster Manager.", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking the indexes and their average usage (%). Scraped by: Cluster Manager.", ms.At(i).Description())
 					assert.Equal(t, "{%}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -636,7 +636,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.indexes.bucket.count"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking the indexes and their bucket counts. *Note:** Search is best run against a Cluster Manager.", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking the indexes and their bucket counts. Scraped by: Cluster Manager.", ms.At(i).Description())
 					assert.Equal(t, "{count}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -657,7 +657,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.indexes.median.data.age"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking the indexes and their median data age (days). *Note:** Search is best run against a Cluster Manager.", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking the indexes and their median data age (days). Scraped by: Cluster Manager.", ms.At(i).Description())
 					assert.Equal(t, "{days}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -678,7 +678,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.indexes.size"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking the indexes and their total size (gb). *Note:** Search is best run against a Cluster Manager.", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking the indexes and their total size (gb). Scraped by: Cluster Manager.", ms.At(i).Description())
 					assert.Equal(t, "Gb", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -699,7 +699,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.io.avg.iops"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking the average IOPs used per instance", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking the average IOPs used per instance. Scraped by: Monitoring Console.", ms.At(i).Description())
 					assert.Equal(t, "{iops}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -720,7 +720,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.kvstore.backup.status"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Backup and restore status of the KV store.", ms.At(i).Description())
+					assert.Equal(t, "Backup and restore status of the KV store. Scraped by: Cluster Manager.", ms.At(i).Description())
 					assert.Equal(t, "{status}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -741,7 +741,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.kvstore.replication.status"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Replication status of the KV store.", ms.At(i).Description())
+					assert.Equal(t, "Replication status of the KV store. Scraped by: Cluster Manager.", ms.At(i).Description())
 					assert.Equal(t, "{status}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -762,7 +762,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.kvstore.status"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "This is the overall status of the kvstore for the given deployment.", ms.At(i).Description())
+					assert.Equal(t, "This is the overall status of the kvstore for the given deployment. Scraped by: Cluster Manager.", ms.At(i).Description())
 					assert.Equal(t, "{status}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -789,7 +789,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.license.expiration.seconds_remaining"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking the seconds remaining on any given Splunk License found via Splunk API. **Note:** This will only work on a Cluster Manager.", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking the seconds remaining on any given Splunk License found via Splunk API. **Note:** This will only work on a Cluster Manager. Scraped by: Cluster Manager.", ms.At(i).Description())
 					assert.Equal(t, "{seconds}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -816,7 +816,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.license.index.usage"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking the indexed license usage per index", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking the indexed license usage per index. Scraped by: Cluster Manager.", ms.At(i).Description())
 					assert.Equal(t, "By", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -837,7 +837,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.parse.queue.ratio"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking the average indexer parser queue ration (%). *Note:** Search is best run against a Cluster Manager.", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking the average indexer parser queue ratio (%). Scraped by: Cluster Manager.", ms.At(i).Description())
 					assert.Equal(t, "{%}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -858,7 +858,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.pipeline.set.count"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking the number of pipeline sets per indexer. **Note:** Search is best run against a Cluster Manager.", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking the number of pipeline sets per indexer. Scraped by: Cluster Manager.", ms.At(i).Description())
 					assert.Equal(t, "KBy", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -879,7 +879,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.scheduler.avg.execution.latency"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking the average execution latency of scheduled searches", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking the average execution latency of scheduled searches. Scraped by: Cluster Manager.", ms.At(i).Description())
 					assert.Equal(t, "{ms}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -900,7 +900,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.scheduler.avg.run.time"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking the average runtime of scheduled searches", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking the average runtime of scheduled searches. Scraped by: Cluster Manager.", ms.At(i).Description())
 					assert.Equal(t, "{ms}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -921,7 +921,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.scheduler.completion.ratio"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking the ratio of completed to skipped scheduled searches", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking the ratio of completed to skipped scheduled searches. Scraped by: Cluster Manager.", ms.At(i).Description())
 					assert.Equal(t, "{%}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -960,7 +960,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.search.initiation"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking whether the last search probe successfully initiated a search.", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking whether the last search probe successfully initiated a search. Scraped by: Search Head.", ms.At(i).Description())
 					assert.Equal(t, "{status}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -978,7 +978,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.search.status"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking the dispatch status of the last search probe.", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking the dispatch status of the last search probe. Scraped by: Search Head.", ms.At(i).Description())
 					assert.Equal(t, "{status}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -999,7 +999,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.search.success"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking whether the last search probe call was successful with the dispatch state 'DONE'.", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking whether the last search probe call was successful with the dispatch state 'DONE'. Scraped by: Search Head.", ms.At(i).Description())
 					assert.Equal(t, "{status}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -1017,7 +1017,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.server.introspection.queues.current"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking current length of queue. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer.", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking current length of queue. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer. Scraped by: Indexer.", ms.At(i).Description())
 					assert.Equal(t, "{queues}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -1038,7 +1038,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.server.introspection.queues.current.bytes"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking current bytes waiting in queue. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer.", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking current bytes waiting in queue. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer. Scraped by: Indexer.", ms.At(i).Description())
 					assert.Equal(t, "By", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -1059,7 +1059,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.server.searchartifacts.adhoc"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking number of ad hoc search artifacts currently on disk. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking number of ad hoc search artifacts currently on disk. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.", ms.At(i).Description())
 					assert.Equal(t, "{search_artifacts}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -1080,7 +1080,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.server.searchartifacts.adhoc.size"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge total size (MB) of ad hoc search artifacts currently on disk. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.", ms.At(i).Description())
+					assert.Equal(t, "Gauge total size (MB) of ad hoc search artifacts currently on disk. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.", ms.At(i).Description())
 					assert.Equal(t, "{search_artifacts}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -1101,7 +1101,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.server.searchartifacts.completed"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking number of artifacts currently on disk that belong to finished searches. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking number of artifacts currently on disk that belong to finished searches. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.", ms.At(i).Description())
 					assert.Equal(t, "{search_artifacts}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -1122,7 +1122,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.server.searchartifacts.completed.size"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge total size (MB) of artifacts currently on disk that belong to finished searches. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.", ms.At(i).Description())
+					assert.Equal(t, "Gauge total size (MB) of artifacts currently on disk that belong to finished searches. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.", ms.At(i).Description())
 					assert.Equal(t, "{search_artifacts}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -1143,7 +1143,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.server.searchartifacts.incomplete"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking number of artifacts currently on disk that belong to unfinished/running searches. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking number of artifacts currently on disk that belong to unfinished/running searches. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.", ms.At(i).Description())
 					assert.Equal(t, "{search_artifacts}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -1164,7 +1164,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.server.searchartifacts.incomplete.size"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge total size (MB) of artifacts currently on disk that belong to unfinished/running searches. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.", ms.At(i).Description())
+					assert.Equal(t, "Gauge total size (MB) of artifacts currently on disk that belong to unfinished/running searches. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.", ms.At(i).Description())
 					assert.Equal(t, "{search_artifacts}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -1185,7 +1185,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.server.searchartifacts.invalid"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking number of artifacts currently on disk that are not in a valid state, such as missing info.csv file, etc. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking number of artifacts currently on disk that are not in a valid state, such as missing info.csv file, etc. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.", ms.At(i).Description())
 					assert.Equal(t, "{search_artifacts}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -1206,7 +1206,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.server.searchartifacts.job.cache.count"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking number search artifacts metadata stored in memory, available in builds 9.1.2312.207+ and 9.3.x+.", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking number search artifacts metadata stored in memory, available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.", ms.At(i).Description())
 					assert.Equal(t, "{search_artifacts}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -1227,7 +1227,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.server.searchartifacts.job.cache.size"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking, in megabytes, memory used to cache job status and job info of all search artifacts, available in builds 9.1.2312.207+ and 9.3.x+.", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking, in megabytes, memory used to cache job status and job info of all search artifacts, available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.", ms.At(i).Description())
 					assert.Equal(t, "{mb}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -1251,7 +1251,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.server.searchartifacts.savedsearches"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking, for the `splunk.server.searchartifacts.scheduled` number of scheduled search artifacts, how many different saved-searches they belong to. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking, for the `splunk.server.searchartifacts.scheduled` number of scheduled search artifacts, how many different saved-searches they belong to. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.", ms.At(i).Description())
 					assert.Equal(t, "{search_artifacts}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -1272,7 +1272,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.server.searchartifacts.scheduled"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking number of scheduled search artifacts currently on disk. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking number of scheduled search artifacts currently on disk. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.", ms.At(i).Description())
 					assert.Equal(t, "{search_artifacts}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -1293,7 +1293,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.server.searchartifacts.scheduled.size"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge total size (MB) of scheduled search artifacts currently on disk. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.", ms.At(i).Description())
+					assert.Equal(t, "Gauge total size (MB) of scheduled search artifacts currently on disk. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.", ms.At(i).Description())
 					assert.Equal(t, "{search_artifacts}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())
@@ -1314,7 +1314,7 @@ func TestMetricsBuilder(t *testing.T) {
 					validatedMetrics["splunk.typing.queue.ratio"] = true
 					assert.Equal(t, pmetric.MetricTypeGauge, ms.At(i).Type())
 					assert.Equal(t, 1, ms.At(i).Gauge().DataPoints().Len())
-					assert.Equal(t, "Gauge tracking the average indexer typing queue ration (%). *Note:** Search is best run against a Cluster Manager.", ms.At(i).Description())
+					assert.Equal(t, "Gauge tracking the average indexer typing queue ratio (%). Scraped by: Cluster Manager.", ms.At(i).Description())
 					assert.Equal(t, "{%}", ms.At(i).Unit())
 					dp := ms.At(i).Gauge().DataPoints().At(0)
 					assert.Equal(t, start, dp.StartTimestamp())

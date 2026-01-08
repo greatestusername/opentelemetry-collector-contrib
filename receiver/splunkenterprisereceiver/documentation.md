@@ -14,7 +14,7 @@ metrics:
 
 ### splunk.health
 
-The status ('red', 'yellow', or 'green') of the Splunk server. Health of 'red' produces a 0 while all other colors produce a 1.
+The status ('red', 'yellow', or 'green') of the Splunk server. Health of 'red' produces a 0 while all other colors produce a 1. Scraped by: Cluster Manager.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -41,7 +41,7 @@ metrics:
 
 ### splunk.aggregation.queue.ratio
 
-Gauge tracking the average indexer aggregation queue ration (%). *Note:** Search is best run against a Cluster Manager.
+Gauge tracking the average indexer aggregation queue ratio (%). Scraped by: Cluster Manager.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -57,7 +57,7 @@ Gauge tracking the average indexer aggregation queue ration (%). *Note:** Search
 
 ### splunk.buckets.searchable.status
 
-Gauge tracking the number of buckets and their searchable status. *Note:** Search is best run against a Cluster Manager.
+Gauge tracking the number of buckets and their searchable status. Scraped by: Cluster Manager.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -74,7 +74,7 @@ Gauge tracking the number of buckets and their searchable status. *Note:** Searc
 
 ### splunk.data.indexes.extended.bucket.count
 
-Count of buckets per index
+Count of buckets per index. *Note:** Must be pointed at specific indexer `endpoint`. Scraped by: Indexer.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -90,7 +90,7 @@ Count of buckets per index
 
 ### splunk.data.indexes.extended.bucket.event.count
 
-Count of events in this bucket super-directory. *Note:** Must be pointed at specific indexer `endpoint`.
+Count of events in this bucket super-directory. *Note:** Must be pointed at specific indexer `endpoint`. Scraped by: Indexer.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -107,7 +107,7 @@ Count of events in this bucket super-directory. *Note:** Must be pointed at spec
 
 ### splunk.data.indexes.extended.bucket.hot.count
 
-(If size > 0) Number of hot buckets. *Note:** Must be pointed at specific indexer `endpoint`.
+(If size > 0) Number of hot buckets. *Note:** Must be pointed at specific indexer `endpoint`. Scraped by: Indexer.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -124,7 +124,7 @@ Count of events in this bucket super-directory. *Note:** Must be pointed at spec
 
 ### splunk.data.indexes.extended.bucket.warm.count
 
-(If size > 0) Number of warm buckets. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer.
+(If size > 0) Number of warm buckets. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer. Scraped by: Indexer.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -141,7 +141,7 @@ Count of events in this bucket super-directory. *Note:** Must be pointed at spec
 
 ### splunk.data.indexes.extended.event.count
 
-Count of events for index, excluding frozen events. Approximately equal to the event_count sum of all buckets. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer.
+Count of events for index, excluding frozen events. Approximately equal to the event_count sum of all buckets. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer. Scraped by: Indexer.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -157,7 +157,7 @@ Count of events for index, excluding frozen events. Approximately equal to the e
 
 ### splunk.data.indexes.extended.raw.size
 
-Size in bytes on disk of the <bucket>/rawdata/ directories of all buckets in this index, excluding frozen *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer.
+Size in bytes on disk of the <bucket>/rawdata/ directories of all buckets in this index, excluding frozen. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer. Scraped by: Indexer.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -173,7 +173,7 @@ Size in bytes on disk of the <bucket>/rawdata/ directories of all buckets in thi
 
 ### splunk.data.indexes.extended.total.size
 
-Size in bytes on disk of this index *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer.
+Size in bytes on disk of this index. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer. Scraped by: Indexer.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -189,7 +189,7 @@ Size in bytes on disk of this index *Note:** Must be pointed at specific indexer
 
 ### splunk.indexer.avg.rate
 
-Gauge tracking the average rate of indexed data. **Note:** Search is best run against a Cluster Manager.
+Gauge tracking the average rate of indexed data. Scraped by: Cluster Manager.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -205,7 +205,7 @@ Gauge tracking the average rate of indexed data. **Note:** Search is best run ag
 
 ### splunk.indexer.cpu.time
 
-Gauge tracking the number of indexing process cpu seconds per instance
+Gauge tracking the number of indexing process cpu seconds per instance. Scraped by: Cluster Manager.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -221,7 +221,7 @@ Gauge tracking the number of indexing process cpu seconds per instance
 
 ### splunk.indexer.queue.ratio
 
-Gauge tracking the average indexer index queue ration (%). *Note:** Search is best run against a Cluster Manager.
+Gauge tracking the average indexer index queue ratio (%). Scraped by: Cluster Manager.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -237,7 +237,7 @@ Gauge tracking the average indexer index queue ration (%). *Note:** Search is be
 
 ### splunk.indexer.raw.write.time
 
-Gauge tracking the number of raw write seconds per instance
+Gauge tracking the number of raw write seconds per instance. Scraped by: Cluster Manager.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -253,7 +253,7 @@ Gauge tracking the number of raw write seconds per instance
 
 ### splunk.indexer.rollingrestart.status
 
-The status of a rolling restart.
+The status of a rolling restart. Scraped by: Cluster Manager.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -270,7 +270,7 @@ The status of a rolling restart.
 
 ### splunk.indexer.throughput
 
-Gauge tracking average bytes per second throughput of indexer. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer.
+Gauge tracking average bytes per second throughput of indexer. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer. Scraped by: Indexer.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -286,7 +286,7 @@ Gauge tracking average bytes per second throughput of indexer. *Note:** Must be 
 
 ### splunk.indexes.avg.size
 
-Gauge tracking the indexes and their average size (gb). *Note:** Search is best run against a Cluster Manager.
+Gauge tracking the indexes and their average size (gb). Scraped by: Cluster Manager.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -302,7 +302,7 @@ Gauge tracking the indexes and their average size (gb). *Note:** Search is best 
 
 ### splunk.indexes.avg.usage
 
-Gauge tracking the indexes and their average usage (%). *Note:** Search is best run against a Cluster Manager.
+Gauge tracking the indexes and their average usage (%). Scraped by: Cluster Manager.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -318,7 +318,7 @@ Gauge tracking the indexes and their average usage (%). *Note:** Search is best 
 
 ### splunk.indexes.bucket.count
 
-Gauge tracking the indexes and their bucket counts. *Note:** Search is best run against a Cluster Manager.
+Gauge tracking the indexes and their bucket counts. Scraped by: Cluster Manager.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -334,7 +334,7 @@ Gauge tracking the indexes and their bucket counts. *Note:** Search is best run 
 
 ### splunk.indexes.median.data.age
 
-Gauge tracking the indexes and their median data age (days). *Note:** Search is best run against a Cluster Manager.
+Gauge tracking the indexes and their median data age (days). Scraped by: Cluster Manager.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -350,7 +350,7 @@ Gauge tracking the indexes and their median data age (days). *Note:** Search is 
 
 ### splunk.indexes.size
 
-Gauge tracking the indexes and their total size (gb). *Note:** Search is best run against a Cluster Manager.
+Gauge tracking the indexes and their total size (gb). Scraped by: Cluster Manager.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -366,7 +366,7 @@ Gauge tracking the indexes and their total size (gb). *Note:** Search is best ru
 
 ### splunk.io.avg.iops
 
-Gauge tracking the average IOPs used per instance
+Gauge tracking the average IOPs used per instance. Scraped by: Monitoring Console.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -382,7 +382,7 @@ Gauge tracking the average IOPs used per instance
 
 ### splunk.kvstore.backup.status
 
-Backup and restore status of the KV store.
+Backup and restore status of the KV store. Scraped by: Cluster Manager.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -398,7 +398,7 @@ Backup and restore status of the KV store.
 
 ### splunk.kvstore.replication.status
 
-Replication status of the KV store.
+Replication status of the KV store. Scraped by: Cluster Manager.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -414,7 +414,7 @@ Replication status of the KV store.
 
 ### splunk.kvstore.status
 
-This is the overall status of the kvstore for the given deployment.
+This is the overall status of the kvstore for the given deployment. Scraped by: Cluster Manager.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -432,7 +432,7 @@ This is the overall status of the kvstore for the given deployment.
 
 ### splunk.license.expiration.seconds_remaining
 
-Gauge tracking the seconds remaining on any given Splunk License found via Splunk API. **Note:** This will only work on a Cluster Manager.
+Gauge tracking the seconds remaining on any given Splunk License found via Splunk API. **Note:** This will only work on a Cluster Manager. Scraped by: Cluster Manager.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -450,7 +450,7 @@ Gauge tracking the seconds remaining on any given Splunk License found via Splun
 
 ### splunk.license.index.usage
 
-Gauge tracking the indexed license usage per index
+Gauge tracking the indexed license usage per index. Scraped by: Cluster Manager.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -466,7 +466,7 @@ Gauge tracking the indexed license usage per index
 
 ### splunk.parse.queue.ratio
 
-Gauge tracking the average indexer parser queue ration (%). *Note:** Search is best run against a Cluster Manager.
+Gauge tracking the average indexer parser queue ratio (%). Scraped by: Cluster Manager.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -482,7 +482,7 @@ Gauge tracking the average indexer parser queue ration (%). *Note:** Search is b
 
 ### splunk.pipeline.set.count
 
-Gauge tracking the number of pipeline sets per indexer. **Note:** Search is best run against a Cluster Manager.
+Gauge tracking the number of pipeline sets per indexer. Scraped by: Cluster Manager.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -498,7 +498,7 @@ Gauge tracking the number of pipeline sets per indexer. **Note:** Search is best
 
 ### splunk.scheduler.avg.execution.latency
 
-Gauge tracking the average execution latency of scheduled searches
+Gauge tracking the average execution latency of scheduled searches. Scraped by: Cluster Manager.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -514,7 +514,7 @@ Gauge tracking the average execution latency of scheduled searches
 
 ### splunk.scheduler.avg.run.time
 
-Gauge tracking the average runtime of scheduled searches
+Gauge tracking the average runtime of scheduled searches. Scraped by: Cluster Manager.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -530,7 +530,7 @@ Gauge tracking the average runtime of scheduled searches
 
 ### splunk.scheduler.completion.ratio
 
-Gauge tracking the ratio of completed to skipped scheduled searches
+Gauge tracking the ratio of completed to skipped scheduled searches. Scraped by: Cluster Manager.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -561,7 +561,7 @@ Gauge tracking the duration in seconds of the last search probe call.
 
 ### splunk.search.initiation
 
-Gauge tracking whether the last search probe successfully initiated a search.
+Gauge tracking whether the last search probe successfully initiated a search. Scraped by: Search Head.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -576,7 +576,7 @@ Gauge tracking whether the last search probe successfully initiated a search.
 
 ### splunk.search.status
 
-Gauge tracking the dispatch status of the last search probe.
+Gauge tracking the dispatch status of the last search probe. Scraped by: Search Head.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -592,7 +592,7 @@ Gauge tracking the dispatch status of the last search probe.
 
 ### splunk.search.success
 
-Gauge tracking whether the last search probe call was successful with the dispatch state 'DONE'.
+Gauge tracking whether the last search probe call was successful with the dispatch state 'DONE'. Scraped by: Search Head.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -607,7 +607,7 @@ Gauge tracking whether the last search probe call was successful with the dispat
 
 ### splunk.server.introspection.queues.current
 
-Gauge tracking current length of queue. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer.
+Gauge tracking current length of queue. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer. Scraped by: Indexer.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -623,7 +623,7 @@ Gauge tracking current length of queue. *Note:** Must be pointed at specific ind
 
 ### splunk.server.introspection.queues.current.bytes
 
-Gauge tracking current bytes waiting in queue. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer.
+Gauge tracking current bytes waiting in queue. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer. Scraped by: Indexer.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -639,7 +639,7 @@ Gauge tracking current bytes waiting in queue. *Note:** Must be pointed at speci
 
 ### splunk.server.searchartifacts.adhoc
 
-Gauge tracking number of ad hoc search artifacts currently on disk. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.
+Gauge tracking number of ad hoc search artifacts currently on disk. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -655,7 +655,7 @@ Gauge tracking number of ad hoc search artifacts currently on disk. Note:* Must 
 
 ### splunk.server.searchartifacts.adhoc.size
 
-Gauge total size (MB) of ad hoc search artifacts currently on disk. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.
+Gauge total size (MB) of ad hoc search artifacts currently on disk. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -671,7 +671,7 @@ Gauge total size (MB) of ad hoc search artifacts currently on disk. Note:* Must 
 
 ### splunk.server.searchartifacts.completed
 
-Gauge tracking number of artifacts currently on disk that belong to finished searches. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.
+Gauge tracking number of artifacts currently on disk that belong to finished searches. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -687,7 +687,7 @@ Gauge tracking number of artifacts currently on disk that belong to finished sea
 
 ### splunk.server.searchartifacts.completed.size
 
-Gauge total size (MB) of artifacts currently on disk that belong to finished searches. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.
+Gauge total size (MB) of artifacts currently on disk that belong to finished searches. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -703,7 +703,7 @@ Gauge total size (MB) of artifacts currently on disk that belong to finished sea
 
 ### splunk.server.searchartifacts.incomplete
 
-Gauge tracking number of artifacts currently on disk that belong to unfinished/running searches. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.
+Gauge tracking number of artifacts currently on disk that belong to unfinished/running searches. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -719,7 +719,7 @@ Gauge tracking number of artifacts currently on disk that belong to unfinished/r
 
 ### splunk.server.searchartifacts.incomplete.size
 
-Gauge total size (MB) of artifacts currently on disk that belong to unfinished/running searches. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.
+Gauge total size (MB) of artifacts currently on disk that belong to unfinished/running searches. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -735,7 +735,7 @@ Gauge total size (MB) of artifacts currently on disk that belong to unfinished/r
 
 ### splunk.server.searchartifacts.invalid
 
-Gauge tracking number of artifacts currently on disk that are not in a valid state, such as missing info.csv file, etc. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.
+Gauge tracking number of artifacts currently on disk that are not in a valid state, such as missing info.csv file, etc. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -751,7 +751,7 @@ Gauge tracking number of artifacts currently on disk that are not in a valid sta
 
 ### splunk.server.searchartifacts.job.cache.count
 
-Gauge tracking number search artifacts metadata stored in memory, available in builds 9.1.2312.207+ and 9.3.x+.
+Gauge tracking number search artifacts metadata stored in memory, available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -767,7 +767,7 @@ Gauge tracking number search artifacts metadata stored in memory, available in b
 
 ### splunk.server.searchartifacts.job.cache.size
 
-Gauge tracking, in megabytes, memory used to cache job status and job info of all search artifacts, available in builds 9.1.2312.207+ and 9.3.x+.
+Gauge tracking, in megabytes, memory used to cache job status and job info of all search artifacts, available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -784,7 +784,7 @@ Gauge tracking, in megabytes, memory used to cache job status and job info of al
 
 ### splunk.server.searchartifacts.savedsearches
 
-Gauge tracking, for the `splunk.server.searchartifacts.scheduled` number of scheduled search artifacts, how many different saved-searches they belong to. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.
+Gauge tracking, for the `splunk.server.searchartifacts.scheduled` number of scheduled search artifacts, how many different saved-searches they belong to. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -800,7 +800,7 @@ Gauge tracking, for the `splunk.server.searchartifacts.scheduled` number of sche
 
 ### splunk.server.searchartifacts.scheduled
 
-Gauge tracking number of scheduled search artifacts currently on disk. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.
+Gauge tracking number of scheduled search artifacts currently on disk. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -816,7 +816,7 @@ Gauge tracking number of scheduled search artifacts currently on disk. Note:* Mu
 
 ### splunk.server.searchartifacts.scheduled.size
 
-Gauge total size (MB) of scheduled search artifacts currently on disk. Note:* Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+.
+Gauge total size (MB) of scheduled search artifacts currently on disk. *Note:** Must be pointed at specific Search Head endpoint and gathers metrics from only that Search Head. Available in builds 9.1.2312.207+ and 9.3.x+. Scraped by: Search Head.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
@@ -832,7 +832,7 @@ Gauge total size (MB) of scheduled search artifacts currently on disk. Note:* Mu
 
 ### splunk.typing.queue.ratio
 
-Gauge tracking the average indexer typing queue ration (%). *Note:** Search is best run against a Cluster Manager.
+Gauge tracking the average indexer typing queue ratio (%). Scraped by: Cluster Manager.
 
 | Unit | Metric Type | Value Type | Stability |
 | ---- | ----------- | ---------- | --------- |
