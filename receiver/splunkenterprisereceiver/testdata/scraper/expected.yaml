@@ -2,7 +2,7 @@ resourceMetrics:
   - resource: {}
     scopeMetrics:
       - metrics:
-          - description: Count of buckets per index
+          - description: 'Count of buckets per index. *Note:** Must be pointed at specific indexer `endpoint`. Scraped by: Indexer.'
             gauge:
               dataPoints:
                 - asInt: "51"
@@ -20,7 +20,7 @@ resourceMetrics:
                   timeUnixNano: "2000000"
             name: splunk.data.indexes.extended.bucket.count
             unit: '{buckets}'
-          - description: Count of events in this bucket super-directory. *Note:** Must be pointed at specific indexer `endpoint`.
+          - description: 'Count of events in this bucket super-directory. *Note:** Must be pointed at specific indexer `endpoint`. Scraped by: Indexer.'
             gauge:
               dataPoints:
                 - asInt: "107267027"
@@ -41,7 +41,7 @@ resourceMetrics:
                   timeUnixNano: "2000000"
             name: splunk.data.indexes.extended.bucket.event.count
             unit: '{events}'
-          - description: (If size > 0) Number of hot buckets. *Note:** Must be pointed at specific indexer `endpoint`.
+          - description: '(If size > 0) Number of hot buckets. *Note:** Must be pointed at specific indexer `endpoint`. Scraped by: Indexer.'
             gauge:
               dataPoints:
                 - asInt: "1"
@@ -62,7 +62,7 @@ resourceMetrics:
                   timeUnixNano: "2000000"
             name: splunk.data.indexes.extended.bucket.hot.count
             unit: '{buckets}'
-          - description: (If size > 0) Number of warm buckets. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer.
+          - description: '(If size > 0) Number of warm buckets. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer. Scraped by: Indexer.'
             gauge:
               dataPoints:
                 - asInt: "50"
@@ -83,7 +83,7 @@ resourceMetrics:
                   timeUnixNano: "2000000"
             name: splunk.data.indexes.extended.bucket.warm.count
             unit: '{buckets}'
-          - description: Count of events for index, excluding frozen events. Approximately equal to the event_count sum of all buckets. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer.
+          - description: 'Count of events for index, excluding frozen events. Approximately equal to the event_count sum of all buckets. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer. Scraped by: Indexer.'
             gauge:
               dataPoints:
                 - asInt: "108411855"
@@ -101,7 +101,7 @@ resourceMetrics:
                   timeUnixNano: "2000000"
             name: splunk.data.indexes.extended.event.count
             unit: '{events}'
-          - description: Size in bytes on disk of the <bucket>/rawdata/ directories of all buckets in this index, excluding frozen *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer.
+          - description: 'Size in bytes on disk of the <bucket>/rawdata/ directories of all buckets in this index, excluding frozen. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer. Scraped by: Indexer.'
             gauge:
               dataPoints:
                 - asInt: "70825079209"
@@ -119,7 +119,7 @@ resourceMetrics:
                   timeUnixNano: "2000000"
             name: splunk.data.indexes.extended.raw.size
             unit: By
-          - description: Size in bytes on disk of this index *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer.
+          - description: 'Size in bytes on disk of this index. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer. Scraped by: Indexer.'
             gauge:
               dataPoints:
                 - asInt: "20818468798"
@@ -137,7 +137,7 @@ resourceMetrics:
                   timeUnixNano: "2000000"
             name: splunk.data.indexes.extended.total.size
             unit: By
-          - description: Gauge tracking the number of indexing process cpu seconds per instance
+          - description: 'Gauge tracking the number of indexing process cpu seconds per instance. Scraped by: Cluster Manager.'
             gauge:
               dataPoints:
                 - asDouble: 69.2
@@ -155,7 +155,7 @@ resourceMetrics:
                   timeUnixNano: "2000000"
             name: splunk.indexer.cpu.time
             unit: '{s}'
-          - description: The status of a rolling restart.
+          - description: 'The status of a rolling restart. Scraped by: Cluster Manager.'
             gauge:
               dataPoints:
                 - asInt: "0"
@@ -176,7 +176,7 @@ resourceMetrics:
                   timeUnixNano: "2000000"
             name: splunk.indexer.rollingrestart.status
             unit: '{status}'
-          - description: Gauge tracking average bytes per second throughput of indexer. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer.
+          - description: 'Gauge tracking average bytes per second throughput of indexer. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer. Scraped by: Indexer.'
             gauge:
               dataPoints:
                 - asDouble: 25579.690815904476
@@ -194,7 +194,7 @@ resourceMetrics:
                   timeUnixNano: "2000000"
             name: splunk.indexer.throughput
             unit: By/s
-          - description: Gauge tracking the average IOPs used per instance
+          - description: 'Gauge tracking the average IOPs used per instance. Scraped by: Monitoring Console.'
             gauge:
               dataPoints:
                 - asInt: "200400"
@@ -212,7 +212,7 @@ resourceMetrics:
                   timeUnixNano: "2000000"
             name: splunk.io.avg.iops
             unit: '{iops}'
-          - description: Gauge tracking the indexed license usage per index
+          - description: 'Gauge tracking the indexed license usage per index. Scraped by: Cluster Manager.'
             gauge:
               dataPoints:
                 - asInt: "101"
@@ -295,7 +295,7 @@ resourceMetrics:
                   timeUnixNano: "2000000"
             name: splunk.license.index.usage
             unit: By
-          - description: Gauge tracking the average runtime of scheduled searches
+          - description: 'Gauge tracking the average runtime of scheduled searches. Scraped by: Cluster Manager.'
             gauge:
               dataPoints:
                 - asDouble: 200.4
@@ -313,7 +313,7 @@ resourceMetrics:
                   timeUnixNano: "2000000"
             name: splunk.scheduler.avg.run.time
             unit: '{ms}'
-          - description: Gauge tracking current length of queue. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer.
+          - description: 'Gauge tracking current length of queue. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer. Scraped by: Indexer.'
             gauge:
               dataPoints:
                 - asInt: "1"
@@ -331,7 +331,7 @@ resourceMetrics:
                   timeUnixNano: "2000000"
             name: splunk.server.introspection.queues.current
             unit: '{queues}'
-          - description: Gauge tracking current bytes waiting in queue. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer.
+          - description: 'Gauge tracking current bytes waiting in queue. *Note:** Must be pointed at specific indexer `endpoint` and gathers metrics from only that indexer. Scraped by: Indexer.'
             gauge:
               dataPoints:
                 - asInt: "100"
